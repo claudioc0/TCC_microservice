@@ -7,7 +7,7 @@ Software Experimental (TCC PUCPR), comparada a um monólito de referência equiv
 
 | Serviço | Porta | Banco (H2) | Responsabilidade |
 |---|---|---|---|
-| `user-service` | 8081 | `userdb` | Cadastro, autenticação e emissão de JWT |
+| `user-service` | 8085 | `userdb` | Cadastro, autenticação e emissão de JWT |
 | `product-service` | 8082 | `productdb` | Catálogo de produtos e controle de estoque |
 | `order-service` | 8083 | `orderdb` | Pedidos, itens e máquina de status |
 | `report-service` | 8084 | — (sem banco próprio) | Relatório de vendas por período |
@@ -56,11 +56,16 @@ não têm dependências entre si; order-service depende do product-service estar
 report-service depende do order-service):
 
 ```bash
-cd user-service    && mvn spring-boot:run   # :8081
+cd user-service    && mvn spring-boot:run   # :8085
 cd product-service && mvn spring-boot:run   # :8082
 cd order-service   && mvn spring-boot:run   # :8083
 cd report-service  && mvn spring-boot:run   # :8084
 ```
+
+> A porta padrão do user-service é 8085 (não 8081) porque 8081 é um valor comum
+> demais e frequentemente já ocupado por outros processos de desenvolvimento
+> na máquina. Ajuste `server.port` em `user-service/src/main/resources/application.properties`
+> (e a constante `SERVICES.user` em `frontend/index.html`) se precisar mudar.
 
 ### Usuários pré-cadastrados (user-service)
 
@@ -68,6 +73,18 @@ cd report-service  && mvn spring-boot:run   # :8084
 |---|---|---|
 | `admin@tcc.com` | `admin123` | ADMIN |
 | `joao@email.com` | `cliente123` | CUSTOMER |
+
+## Frontend
+
+`frontend/index.html` é uma página estática (HTML/CSS/JS puro, sem build) que cobre as
+principais funcionalidades: login/cadastro, listagem e cadastro de produtos, montagem de
+carrinho e checkout, listagem de "meus pedidos" com cancelamento, painel ADMIN com todos
+os pedidos (atualização de status) e geração do relatório de vendas por período. Ela fala
+diretamente com os 4 serviços via `fetch`, guarda o token JWT no `localStorage` e mostra
+um log de todas as requisições feitas.
+
+Basta abrir o arquivo no navegador com os 4 serviços rodando (ou servir com qualquer
+servidor estático, ex. `npx serve frontend`, para evitar peculiaridades de `file://`).
 
 ## Testes
 

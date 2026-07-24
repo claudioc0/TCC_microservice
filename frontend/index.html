@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>E-commerce TCC — Microsserviços</title>
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface-2: #181b22;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.18);
+
+    --blue: #3d8bff;   --blue-dim: rgba(61,139,255,0.12);
+    --green: #2ecc8a;  --green-dim: rgba(46,204,138,0.12);
+    --red: #ff5b5b;    --red-dim: rgba(255,91,91,0.12);
+    --amber: #f5a623;  --amber-dim: rgba(245,166,35,0.12);
+    --purple: #a56bff; --purple-dim: rgba(165,107,255,0.12);
+
+    --text-1: #f0f2f7;
+    --text-2: #8b90a0;
+    --text-3: #565b6a;
+
+    --radius: 14px;
+    --radius-sm: 8px;
+    --font-display: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    --font-mono: 'Consolas', 'Menlo', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-display);
+    background: var(--bg);
+    color: var(--text-1);
+    min-height: 100vh;
+  }
+  .wrapper { max-width: 1280px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  header {
+    display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
+    gap: 1rem; margin-bottom: 2rem;
+  }
+  header h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
+  header h1 span { color: var(--purple); }
+  header p.subtitle { margin-top: .3rem; font-size: .8rem; color: var(--text-3); font-family: var(--font-mono); }
+
+  .status-row { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: .75rem; }
+  .status-pill {
+    display: flex; align-items: center; gap: .4rem;
+    padding: .3rem .7rem; border-radius: 100px; border: 1px solid var(--border);
+    font-size: .72rem; font-family: var(--font-mono); color: var(--text-3);
+  }
+  .status-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-3); }
+  .status-pill.online { color: var(--green); border-color: rgba(46,204,138,0.25); }
+  .status-pill.online .dot { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .status-pill.offline { color: var(--red); border-color: rgba(255,91,91,0.25); }
+  .status-pill.offline .dot { background: var(--red); }
+
+  .user-box {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .6rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--surface); font-size: .82rem;
+  }
+  .user-box .role-badge {
+    font-family: var(--font-mono); font-size: .68rem; padding: .15rem .5rem;
+    border-radius: 100px; background: var(--purple-dim); color: var(--purple);
+  }
+  .btn-link { background: none; border: none; color: var(--text-3); cursor: pointer; font-size: .78rem; text-decoration: underline; }
+  .btn-link:hover { color: var(--text-1); }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; transition: border-color .2s;
+  }
+  .card:hover { border-color: var(--border-hover); }
+  .card.hidden { display: none; }
+  .card-top { padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: .7rem; }
+  .card-top .icon { font-size: 1.15rem; }
+  .card-top h2 { font-size: .95rem; font-weight: 700; }
+  .card-top p { font-size: .72rem; color: var(--text-3); font-family: var(--font-mono); margin-top: .15rem; }
+  .card-body { padding: 1.2rem 1.4rem; display: flex; flex-direction: column; gap: 1rem; }
+
+  .field label { display: block; font-size: .7rem; font-family: var(--font-mono); color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .35rem; }
+  .field input, .field select {
+    width: 100%; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: .6rem .8rem; font-size: .85rem; color: var(--text-1); outline: none;
+  }
+  .field input:focus, .field select:focus { border-color: var(--blue); }
+  .row { display: flex; gap: .6rem; }
+  .row > * { flex: 1; }
+
+  .btn {
+    padding: .65rem 1rem; border: none; border-radius: var(--radius-sm); font-weight: 700; font-size: .82rem;
+    cursor: pointer; transition: opacity .15s, transform .1s;
+  }
+  .btn:hover { opacity: .9; } .btn:active { transform: translateY(1px); }
+  .btn--blue { background: var(--blue); color: #fff; }
+  .btn--green { background: var(--green); color: #06231a; }
+  .btn--red { background: var(--red); color: #2a0505; }
+  .btn--amber { background: var(--amber); color: #2a1c00; }
+  .btn--ghost { background: var(--surface-2); color: var(--text-1); border: 1px solid var(--border); }
+  .btn--sm { padding: .35rem .7rem; font-size: .72rem; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  .tabs { display: flex; gap: .3rem; margin-bottom: .3rem; }
+  .tab { flex: 1; padding: .5rem; text-align: center; border-radius: var(--radius-sm); background: var(--surface-2);
+    font-size: .78rem; cursor: pointer; color: var(--text-3); border: 1px solid transparent; }
+  .tab.active { color: var(--text-1); border-color: var(--border-hover); background: var(--blue-dim); color: var(--blue); }
+
+  table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+  th, td { text-align: left; padding: .5rem .4rem; border-bottom: 1px solid var(--border); }
+  th { color: var(--text-3); font-family: var(--font-mono); font-size: .68rem; text-transform: uppercase; }
+  .table-wrap { max-height: 260px; overflow-y: auto; }
+
+  .badge { font-family: var(--font-mono); font-size: .68rem; padding: .15rem .5rem; border-radius: 100px; white-space: nowrap; }
+  .badge.PENDENTE { background: var(--amber-dim); color: var(--amber); }
+  .badge.CONFIRMADO { background: var(--blue-dim); color: var(--blue); }
+  .badge.ENVIADO { background: var(--purple-dim); color: var(--purple); }
+  .badge.ENTREGUE { background: var(--green-dim); color: var(--green); }
+  .badge.CANCELADO { background: var(--red-dim); color: var(--red); }
+
+  .cart-row { display: flex; gap: .5rem; align-items: center; font-size: .8rem; }
+  .cart-row .remove { cursor: pointer; color: var(--text-3); }
+  .cart-row .remove:hover { color: var(--red); }
+
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
+  .stat-tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .7rem .8rem; }
+  .stat-tile .stat-label { font-size: .65rem; font-family: var(--font-mono); color: var(--text-3); text-transform: uppercase; }
+  .stat-tile .stat-value { font-size: 1.15rem; font-weight: 800; margin-top: .2rem; }
+
+  .log-section { margin-top: 1.5rem; }
+  .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .6rem; }
+  .log-header span { font-size: .72rem; font-family: var(--font-mono); color: var(--text-3); text-transform: uppercase; letter-spacing: .08em; }
+  .log-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); min-height: 120px; max-height: 280px; overflow-y: auto; padding: .9rem; display: flex; flex-direction: column-reverse; gap: .5rem; }
+  .log-entry { border-radius: var(--radius-sm); padding: .55rem .8rem; font-family: var(--font-mono); font-size: .72rem; border-left: 3px solid transparent; }
+  .log-entry.success { background: var(--green-dim); border-left-color: var(--green); color: var(--green); }
+  .log-entry.error { background: var(--red-dim); border-left-color: var(--red); color: #ff8a8a; }
+  .log-entry .time { color: var(--text-3); margin-right: .5rem; }
+  .log-entry pre { margin-top: .3rem; white-space: pre-wrap; word-break: break-all; color: var(--text-2); }
+  .log-empty { text-align: center; color: var(--text-3); font-family: var(--font-mono); font-size: .75rem; padding: 1rem; }
+
+  .hint { font-size: .72rem; color: var(--text-3); }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <header>
+    <div>
+      <h1>E-commerce TCC <span>·</span> Microsserviços</h1>
+      <p class="subtitle">// user :8085 · product :8082 · order :8083 · report :8084</p>
+      <div class="status-row" id="statusRow"></div>
+    </div>
+    <div class="user-box" id="userBox"></div>
+  </header>
+
+  <div class="grid">
+
+    <!-- AUTENTICAÇÃO -->
+    <section class="card" id="authCard">
+      <div class="card-top">
+        <span class="icon">🔐</span>
+        <div><h2>Autenticação</h2><p>user-service · :8085</p></div>
+      </div>
+      <div class="card-body">
+        <div class="tabs">
+          <div class="tab active" data-tab="login">Entrar</div>
+          <div class="tab" data-tab="register">Cadastrar</div>
+        </div>
+
+        <form id="loginForm">
+          <div class="field"><label>E-mail</label><input type="email" id="loginEmail" placeholder="admin@tcc.com" required /></div>
+          <div class="field" style="margin-top:.7rem"><label>Senha</label><input type="password" id="loginPassword" placeholder="admin123" required /></div>
+          <button class="btn btn--blue" type="submit" style="margin-top:.9rem;width:100%">Entrar</button>
+          <p class="hint" style="margin-top:.6rem">admin@tcc.com / admin123 · joao@email.com / cliente123</p>
+        </form>
+
+        <form id="registerForm" style="display:none">
+          <div class="field"><label>Nome</label><input type="text" id="regName" placeholder="Maria Silva" required /></div>
+          <div class="field" style="margin-top:.7rem"><label>E-mail</label><input type="email" id="regEmail" placeholder="maria@email.com" required /></div>
+          <div class="field" style="margin-top:.7rem"><label>Senha (mín. 6 caracteres)</label><input type="password" id="regPassword" minlength="6" required /></div>
+          <button class="btn btn--green" type="submit" style="margin-top:.9rem;width:100%">Cadastrar</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- PRODUTOS -->
+    <section class="card" id="productsCard">
+      <div class="card-top">
+        <span class="icon">📦</span>
+        <div><h2>Produtos</h2><p>product-service · :8082</p></div>
+      </div>
+      <div class="card-body">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Estoque</th></tr></thead>
+            <tbody id="productsTableBody"><tr><td colspan="4" class="log-empty">Carregando…</td></tr></tbody>
+          </table>
+        </div>
+        <button class="btn btn--ghost btn--sm" id="btnReloadProducts" style="align-self:flex-start">↻ Recarregar</button>
+
+        <div id="adminProductForm" class="admin-only" style="display:none;border-top:1px solid var(--border);padding-top:1rem;margin-top:.3rem">
+          <p class="hint" style="margin-bottom:.6rem">Cadastrar produto (ADMIN)</p>
+          <form id="productForm">
+            <div class="row">
+              <div class="field"><label>Nome</label><input type="text" id="prodName" required /></div>
+              <div class="field"><label>Preço (R$)</label><input type="number" step="0.01" id="prodPrice" required /></div>
+            </div>
+            <div class="row" style="margin-top:.7rem">
+              <div class="field"><label>Descrição</label><input type="text" id="prodDesc" /></div>
+              <div class="field"><label>Estoque</label><input type="number" id="prodStock" required /></div>
+            </div>
+            <button class="btn btn--green" type="submit" style="margin-top:.9rem;width:100%">Criar Produto</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHECKOUT -->
+    <section class="card" id="checkoutCard">
+      <div class="card-top">
+        <span class="icon">🛒</span>
+        <div><h2>Checkout</h2><p>order-service · :8083 (chama product-service)</p></div>
+      </div>
+      <div class="card-body">
+        <p class="hint">Faça login para montar um pedido.</p>
+        <div id="cartRows"></div>
+        <div class="row">
+          <div class="field"><label>ID do produto</label><input type="number" id="cartProductId" /></div>
+          <div class="field"><label>Quantidade</label><input type="number" id="cartQuantity" value="1" min="1" /></div>
+        </div>
+        <button class="btn btn--ghost" id="btnAddToCart" type="button">+ Adicionar ao carrinho</button>
+        <button class="btn btn--blue" id="btnCheckout" type="button">Finalizar Pedido</button>
+
+        <div style="border-top:1px solid var(--border);padding-top:1rem;margin-top:.3rem">
+          <p class="hint" style="margin-bottom:.6rem">Meus pedidos</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Total</th><th>Status</th><th></th></tr></thead>
+              <tbody id="myOrdersTableBody"><tr><td colspan="4" class="log-empty">Faça login para ver seus pedidos.</td></tr></tbody>
+            </table>
+          </div>
+          <button class="btn btn--ghost btn--sm" id="btnReloadMyOrders" style="margin-top:.5rem">↻ Recarregar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN: PEDIDOS -->
+    <section class="card admin-only" id="adminOrdersCard" style="display:none">
+      <div class="card-top">
+        <span class="icon">🗂️</span>
+        <div><h2>Todos os Pedidos (ADMIN)</h2><p>order-service · :8083</p></div>
+      </div>
+      <div class="card-body">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Usuário</th><th>Total</th><th>Status</th><th>Ações</th></tr></thead>
+            <tbody id="allOrdersTableBody"><tr><td colspan="5" class="log-empty">Carregando…</td></tr></tbody>
+          </table>
+        </div>
+        <button class="btn btn--ghost btn--sm" id="btnReloadAllOrders" style="align-self:flex-start">↻ Recarregar</button>
+      </div>
+    </section>
+
+    <!-- ADMIN: RELATÓRIO -->
+    <section class="card admin-only" id="reportCard" style="display:none">
+      <div class="card-top">
+        <span class="icon">📊</span>
+        <div><h2>Relatório de Vendas (ADMIN)</h2><p>report-service · :8084 (chama order-service)</p></div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="field"><label>Data início</label><input type="date" id="reportStart" /></div>
+          <div class="field"><label>Data fim</label><input type="date" id="reportEnd" /></div>
+        </div>
+        <button class="btn btn--amber" id="btnGenerateReport" type="button">Gerar Relatório</button>
+
+        <div class="stats-row" id="reportStats" style="display:none">
+          <div class="stat-tile"><div class="stat-label">Pedidos</div><div class="stat-value" id="statTotal">—</div></div>
+          <div class="stat-tile"><div class="stat-label">Entregues</div><div class="stat-value" id="statDelivered">—</div></div>
+          <div class="stat-tile"><div class="stat-label">Cancelados</div><div class="stat-value" id="statCanceled">—</div></div>
+          <div class="stat-tile"><div class="stat-label">Receita</div><div class="stat-value" id="statRevenue">—</div></div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Usuário</th><th>Total</th><th>Status</th><th>Criado em</th></tr></thead>
+            <tbody id="reportTableBody"><tr><td colspan="5" class="log-empty">Escolha um período e gere o relatório.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="log-section">
+    <div class="log-header">
+      <span>// log de requisições</span>
+      <button class="btn-link" id="btnClearLog">limpar</button>
+    </div>
+    <div class="log-box" id="logBox"><div class="log-empty" id="logEmpty">Nenhuma requisição ainda…</div></div>
+  </div>
+
+</div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────
+  const SERVICES = {
+    user:    'http://localhost:8085',
+    product: 'http://localhost:8082',
+    order:   'http://localhost:8083',
+    report:  'http://localhost:8084',
+  };
+
+  // ── ESTADO / SESSÃO ─────────────────────────────────────────
+  const Session = {
+    get token() { return localStorage.getItem('tcc_token'); },
+    get role() { return localStorage.getItem('tcc_role'); },
+    get name() { return localStorage.getItem('tcc_name'); },
+    get email() { return localStorage.getItem('tcc_email'); },
+    isLoggedIn() { return !!this.token; },
+    isAdmin() { return this.role === 'ADMIN'; },
+    save(auth) {
+      localStorage.setItem('tcc_token', auth.token);
+      localStorage.setItem('tcc_role', auth.role);
+      localStorage.setItem('tcc_name', auth.name);
+      localStorage.setItem('tcc_email', auth.email);
+    },
+    clear() {
+      ['tcc_token','tcc_role','tcc_name','tcc_email'].forEach(k => localStorage.removeItem(k));
+    }
+  };
+
+  let cart = [];
+
+  // ── LOG ─────────────────────────────────────────────────────
+  function addLog(type, label, data) {
+    const box = document.getElementById('logBox');
+    const empty = document.getElementById('logEmpty');
+    if (empty) empty.remove();
+    const time = new Date().toLocaleTimeString('pt-BR');
+    const json = typeof data === 'object' ? JSON.stringify(data, null, 2) : String(data ?? '');
+    const entry = document.createElement('div');
+    entry.className = `log-entry ${type}`;
+    entry.innerHTML = `<span class="time">[${time}]</span><strong>${label}</strong>${json ? `<pre>${json}</pre>` : ''}`;
+    box.appendChild(entry);
+    box.scrollTop = box.scrollHeight;
+  }
+  document.getElementById('btnClearLog').onclick = () => {
+    document.getElementById('logBox').innerHTML = '<div class="log-empty" id="logEmpty">Nenhuma requisição ainda…</div>';
+  };
+
+  // ── HTTP HELPER ─────────────────────────────────────────────
+  async function api(method, url, { body, auth = false, label } = {}) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (auth && Session.token) headers['Authorization'] = `Bearer ${Session.token}`;
+
+    try {
+      const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined });
+      let data = null;
+      const text = await res.text();
+      try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+
+      if (res.ok) {
+        addLog('success', `✅ ${label || method + ' ' + url} [${res.status}]`, data);
+        return { ok: true, status: res.status, data };
+      } else {
+        addLog('error', `❌ ${label || method + ' ' + url} [${res.status}]`, data);
+        return { ok: false, status: res.status, data };
+      }
+    } catch (err) {
+      addLog('error', `❌ ${label || method + ' ' + url} — conexão recusada`, err.message);
+      return { ok: false, status: 0, data: null };
+    }
+  }
+
+  // ── STATUS DOS SERVIÇOS ─────────────────────────────────────
+  async function pingAll() {
+    const row = document.getElementById('statusRow');
+    row.innerHTML = '';
+    for (const [name, base] of Object.entries(SERVICES)) {
+      const pill = document.createElement('div');
+      pill.className = 'status-pill';
+      pill.innerHTML = `<span class="dot"></span> ${name}`;
+      row.appendChild(pill);
+      try {
+        await fetch(base + '/', { signal: AbortSignal.timeout(2000) });
+        pill.classList.add('online');
+      } catch {
+        try {
+          // Uma resposta de erro HTTP (4xx) já prova que o serviço está no ar.
+          await fetch(base + '/api/products', { signal: AbortSignal.timeout(2000) });
+          pill.classList.add('online');
+        } catch {
+          pill.classList.add('offline');
+        }
+      }
+    }
+  }
+
+  // ── UI: SESSÃO ──────────────────────────────────────────────
+  function renderUserBox() {
+    const box = document.getElementById('userBox');
+    if (Session.isLoggedIn()) {
+      box.innerHTML = `
+        <div>
+          <div>${Session.name}</div>
+          <div style="color:var(--text-3);font-size:.72rem">${Session.email}</div>
+        </div>
+        <span class="role-badge">${Session.role}</span>
+        <button class="btn-link" id="btnLogout">sair</button>`;
+      document.getElementById('btnLogout').onclick = logout;
+    } else {
+      box.innerHTML = `<span class="hint">Não autenticado</span>`;
+    }
+    document.getElementById('authCard').classList.toggle('hidden', Session.isLoggedIn());
+    document.querySelectorAll('.admin-only').forEach(el => {
+      el.style.display = Session.isAdmin() ? '' : 'none';
+    });
+    document.getElementById('adminProductForm').style.display = Session.isAdmin() ? 'block' : 'none';
+  }
+
+  function logout() {
+    Session.clear();
+    cart = [];
+    renderCart();
+    renderUserBox();
+    document.getElementById('myOrdersTableBody').innerHTML =
+      '<tr><td colspan="4" class="log-empty">Faça login para ver seus pedidos.</td></tr>';
+  }
+
+  // ── TABS LOGIN/CADASTRO ─────────────────────────────────────
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.onclick = () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const isLogin = tab.dataset.tab === 'login';
+      document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
+      document.getElementById('registerForm').style.display = isLogin ? 'none' : 'block';
+    };
+  });
+
+  // ── AUTENTICAÇÃO ────────────────────────────────────────────
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const { ok, data } = await api('POST', `${SERVICES.user}/api/auth/login`, {
+      body: { email, password }, label: 'Login' });
+    if (ok) {
+      Session.save(data);
+      renderUserBox();
+      loadProducts();
+      loadMyOrders();
+    }
+  });
+
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    const { ok, data } = await api('POST', `${SERVICES.user}/api/auth/register`, {
+      body: { name, email, password }, label: 'Cadastro' });
+    if (ok) {
+      Session.save(data);
+      renderUserBox();
+      loadProducts();
+      loadMyOrders();
+    }
+  });
+
+  // ── PRODUTOS ────────────────────────────────────────────────
+  async function loadProducts() {
+    const tbody = document.getElementById('productsTableBody');
+    const { ok, data } = await api('GET', `${SERVICES.product}/api/products`, { label: 'Listar produtos' });
+    if (!ok || !Array.isArray(data)) {
+      tbody.innerHTML = '<tr><td colspan="4" class="log-empty">Não foi possível carregar produtos.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.length
+      ? data.map(p => `<tr><td>${p.id}</td><td>${p.name}</td><td>R$ ${Number(p.price).toFixed(2)}</td><td>${p.stockQuantity}</td></tr>`).join('')
+      : '<tr><td colspan="4" class="log-empty">Nenhum produto cadastrado.</td></tr>';
+  }
+  document.getElementById('btnReloadProducts').onclick = loadProducts;
+
+  document.getElementById('productForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const body = {
+      name: document.getElementById('prodName').value,
+      description: document.getElementById('prodDesc').value,
+      price: parseFloat(document.getElementById('prodPrice').value),
+      stockQuantity: parseInt(document.getElementById('prodStock').value, 10),
+    };
+    const { ok } = await api('POST', `${SERVICES.product}/api/products`, { body, auth: true, label: 'Criar produto' });
+    if (ok) { e.target.reset(); loadProducts(); }
+  });
+
+  // ── CARRINHO / CHECKOUT ─────────────────────────────────────
+  function renderCart() {
+    const el = document.getElementById('cartRows');
+    el.innerHTML = cart.length
+      ? cart.map((item, i) => `
+          <div class="cart-row">
+            <span>Produto #${item.productId} × ${item.quantity}</span>
+            <span class="remove" data-i="${i}">✕</span>
+          </div>`).join('')
+      : '';
+    el.querySelectorAll('.remove').forEach(btn => {
+      btn.onclick = () => { cart.splice(Number(btn.dataset.i), 1); renderCart(); };
+    });
+  }
+
+  document.getElementById('btnAddToCart').onclick = () => {
+    const productId = parseInt(document.getElementById('cartProductId').value, 10);
+    const quantity = parseInt(document.getElementById('cartQuantity').value, 10);
+    if (!productId || !quantity) return;
+    cart.push({ productId, quantity });
+    renderCart();
+  };
+
+  document.getElementById('btnCheckout').onclick = async () => {
+    if (!Session.isLoggedIn()) { addLog('error', '❌ Checkout', 'Faça login primeiro.'); return; }
+    if (!cart.length) { addLog('error', '❌ Checkout', 'Carrinho vazio.'); return; }
+    const { ok } = await api('POST', `${SERVICES.order}/api/orders`, {
+      body: { items: cart }, auth: true, label: 'Criar pedido' });
+    if (ok) { cart = []; renderCart(); loadMyOrders(); }
+  };
+
+  async function loadMyOrders() {
+    const tbody = document.getElementById('myOrdersTableBody');
+    if (!Session.isLoggedIn()) return;
+    const { ok, data } = await api('GET', `${SERVICES.order}/api/orders/my-orders`, { auth: true, label: 'Meus pedidos' });
+    if (!ok || !Array.isArray(data)) return;
+    tbody.innerHTML = data.length
+      ? data.map(o => `
+          <tr>
+            <td>${o.id}</td>
+            <td>R$ ${Number(o.totalAmount).toFixed(2)}</td>
+            <td><span class="badge ${o.status}">${o.status}</span></td>
+            <td>${o.status === 'PENDENTE' ? `<button class="btn btn--red btn--sm" data-cancel="${o.id}">Cancelar</button>` : ''}</td>
+          </tr>`).join('')
+      : '<tr><td colspan="4" class="log-empty">Nenhum pedido ainda.</td></tr>';
+    tbody.querySelectorAll('[data-cancel]').forEach(btn => {
+      btn.onclick = async () => {
+        const { ok } = await api('PATCH', `${SERVICES.order}/api/orders/${btn.dataset.cancel}/cancel`, { auth: true, label: 'Cancelar pedido' });
+        if (ok) loadMyOrders();
+      };
+    });
+  }
+  document.getElementById('btnReloadMyOrders').onclick = loadMyOrders;
+
+  // ── ADMIN: TODOS OS PEDIDOS ─────────────────────────────────
+  const STATUS_OPTIONS = ['CONFIRMADO', 'ENVIADO', 'ENTREGUE', 'CANCELADO'];
+
+  async function loadAllOrders() {
+    const tbody = document.getElementById('allOrdersTableBody');
+    const { ok, data } = await api('GET', `${SERVICES.order}/api/orders`, { auth: true, label: 'Listar todos os pedidos' });
+    if (!ok || !Array.isArray(data)) {
+      tbody.innerHTML = '<tr><td colspan="5" class="log-empty">Não foi possível carregar.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.length ? data.map(o => `
+      <tr>
+        <td>${o.id}</td>
+        <td>#${o.userId}</td>
+        <td>R$ ${Number(o.totalAmount).toFixed(2)}</td>
+        <td><span class="badge ${o.status}">${o.status}</span></td>
+        <td>
+          <select data-status-for="${o.id}" style="font-size:.72rem;background:var(--surface-2);color:var(--text-1);border:1px solid var(--border);border-radius:6px;padding:.2rem">
+            <option value="">status…</option>
+            ${STATUS_OPTIONS.map(s => `<option value="${s}">${s}</option>`).join('')}
+          </select>
+        </td>
+      </tr>`).join('') : '<tr><td colspan="5" class="log-empty">Nenhum pedido.</td></tr>';
+
+    tbody.querySelectorAll('[data-status-for]').forEach(select => {
+      select.onchange = async () => {
+        const id = select.dataset.statusFor;
+        const newStatus = select.value;
+        if (!newStatus) return;
+        const path = newStatus === 'CANCELADO' ? `${SERVICES.order}/api/orders/${id}/cancel` : `${SERVICES.order}/api/orders/${id}/status`;
+        const { ok } = newStatus === 'CANCELADO'
+          ? await api('PATCH', path, { auth: true, label: 'Cancelar pedido' })
+          : await api('PATCH', path, { body: { newStatus }, auth: true, label: 'Atualizar status' });
+        if (ok) loadAllOrders();
+      };
+    });
+  }
+  document.getElementById('btnReloadAllOrders').onclick = loadAllOrders;
+
+  // ── ADMIN: RELATÓRIO ────────────────────────────────────────
+  document.getElementById('btnGenerateReport').onclick = async () => {
+    const startDate = document.getElementById('reportStart').value;
+    const endDate = document.getElementById('reportEnd').value;
+    if (!startDate || !endDate) { addLog('error', '❌ Relatório', 'Informe as duas datas.'); return; }
+
+    const url = `${SERVICES.report}/api/reports/sales?startDate=${startDate}&endDate=${endDate}`;
+    const { ok, data } = await api('GET', url, { auth: true, label: 'Gerar relatório de vendas' });
+    if (!ok) return;
+
+    document.getElementById('reportStats').style.display = 'grid';
+    document.getElementById('statTotal').textContent = data.totalOrders;
+    document.getElementById('statDelivered').textContent = data.deliveredOrders;
+    document.getElementById('statCanceled').textContent = data.canceledOrders;
+    document.getElementById('statRevenue').textContent = 'R$ ' + Number(data.totalRevenue).toFixed(2);
+
+    const tbody = document.getElementById('reportTableBody');
+    tbody.innerHTML = data.orders.length ? data.orders.map(o => `
+      <tr>
+        <td>${o.id}</td>
+        <td>#${o.userId}</td>
+        <td>R$ ${Number(o.totalAmount).toFixed(2)}</td>
+        <td><span class="badge ${o.status}">${o.status}</span></td>
+        <td>${(o.createdAt || '').replace('T', ' ').slice(0, 16)}</td>
+      </tr>`).join('') : '<tr><td colspan="5" class="log-empty">Nenhum pedido no período.</td></tr>';
+  };
+
+  // ── INIT ────────────────────────────────────────────────────
+  renderUserBox();
+  renderCart();
+  pingAll();
+  loadProducts();
+  if (Session.isLoggedIn()) {
+    loadMyOrders();
+    if (Session.isAdmin()) loadAllOrders();
+  }
+</script>
+</body>
+</html>
