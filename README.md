@@ -1,7 +1,13 @@
 # E-commerce TCC — Microsserviços
 
+![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-6DB33F?logo=spring&logoColor=white)
+![JUnit5](https://img.shields.io/badge/tests-JUnit5-25A162?logo=junit5&logoColor=white)
+![ArchUnit](https://img.shields.io/badge/architecture-ArchUnit-blue)
+
 Implementação da versão **Microsserviços** do experimento controlado de Engenharia de
-Software Experimental (TCC PUCPR), comparada a um monólito de referência equivalente.
+Software Experimental (TCC PUCPR), comparada a um monólito de referência equivalente:
+[`TCC_monolith`](https://github.com/claudioc0/TCC_monolith).
 
 ## Serviços
 
