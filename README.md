@@ -9,6 +9,14 @@ Implementação da versão **Microsserviços** do experimento controlado de Enge
 Software Experimental (TCC PUCPR), comparada a um monólito de referência equivalente:
 [`TCC_monolith`](https://github.com/claudioc0/TCC_monolith).
 
+## Uso de Inteligência Artificial no desenvolvimento
+
+Este projeto foi desenvolvido com assistência de IA (Claude Code, Anthropic) em parte do
+processo — geração e revisão de código, testes e documentação. O uso é declarado
+formalmente à orientação por meio do documento de acompanhamento enviado antes de cada
+sprint; este aviso fica aqui como registro público, independente dessa declaração
+formal.
+
 ## Serviços
 
 | Serviço | Porta | Banco (H2) | Responsabilidade |
