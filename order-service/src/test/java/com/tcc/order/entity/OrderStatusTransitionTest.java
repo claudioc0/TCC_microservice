@@ -3,6 +3,7 @@ package com.tcc.order.entity;
 import com.tcc.order.exception.InvalidStatusTransitionException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -76,6 +77,24 @@ class OrderStatusTransitionTest {
     }
 
     @Test
+    @DisplayName("CONFIRMADO → PENDENTE deve ser bloqueado (não retrocede)")
+    void confirmadoToPendenteBlocked() {
+        Order order = newOrder();
+        order.transitionTo(OrderStatus.CONFIRMADO);
+        assertThatThrownBy(() -> order.transitionTo(OrderStatus.PENDENTE))
+                .isInstanceOf(InvalidStatusTransitionException.class);
+    }
+
+    @Test
+    @DisplayName("CONFIRMADO → ENTREGUE deve ser bloqueado (pula etapa)")
+    void confirmadoToEntregueBlocked() {
+        Order order = newOrder();
+        order.transitionTo(OrderStatus.CONFIRMADO);
+        assertThatThrownBy(() -> order.transitionTo(OrderStatus.ENTREGUE))
+                .isInstanceOf(InvalidStatusTransitionException.class);
+    }
+
+    @Test
     @DisplayName("ENVIADO → CANCELADO deve ser bloqueado")
     void enviadoToCanceladoBlocked() {
         Order order = newOrder();
@@ -122,5 +141,67 @@ class OrderStatusTransitionTest {
         Order order = newOrder();
         order.addItem(new OrderItem(order, 1L, "Mouse", new java.math.BigDecimal("150.00"), 2));
         assertThat(order.getTotalAmount()).isEqualByComparingTo("300.00");
+    }
+
+    // ── Getters / timestamps (Order) ────────────────────────────
+
+    @Test
+    @DisplayName("Construtor deve preencher userId e status inicial PENDENTE")
+    void constructorShouldPopulateUserIdAndInitialStatus() {
+        Order order = new Order(42L);
+
+        assertThat(order.getUserId()).isEqualTo(42L);
+        assertThat(order.getStatus()).isEqualTo(OrderStatus.PENDENTE);
+    }
+
+    @Test
+    @DisplayName("getId deve retornar o id atribuído (simulando persistência)")
+    void getIdShouldReturnAssignedId() {
+        Order order = newOrder();
+        ReflectionTestUtils.setField(order, "id", 9L);
+
+        assertThat(order.getId()).isEqualTo(9L);
+    }
+
+    @Test
+    @DisplayName("onCreate (@PrePersist) deve preencher createdAt e updatedAt")
+    void onCreateShouldSetTimestamps() {
+        Order order = newOrder();
+
+        order.onCreate();
+
+        assertThat(order.getCreatedAt()).isNotNull();
+        assertThat(order.getUpdatedAt()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("onUpdate (@PreUpdate) deve atualizar apenas updatedAt")
+    void onUpdateShouldRefreshOnlyUpdatedAt() throws InterruptedException {
+        Order order = newOrder();
+        order.onCreate();
+        var createdAt = order.getCreatedAt();
+        Thread.sleep(5);
+
+        order.onUpdate();
+
+        assertThat(order.getCreatedAt()).isEqualTo(createdAt);
+        assertThat(order.getUpdatedAt()).isAfter(createdAt);
+    }
+
+    // ── Getters (OrderItem) ──────────────────────────────────────
+
+    @Test
+    @DisplayName("OrderItem deve expor pedido, produto, preço e quantidade")
+    void orderItemGettersShouldReturnConstructorValues() {
+        Order order = newOrder();
+        OrderItem item = new OrderItem(order, 7L, "Teclado", new java.math.BigDecimal("250.00"), 3);
+        ReflectionTestUtils.setField(item, "id", 15L);
+
+        assertThat(item.getId()).isEqualTo(15L);
+        assertThat(item.getOrder()).isSameAs(order);
+        assertThat(item.getProductId()).isEqualTo(7L);
+        assertThat(item.getProductName()).isEqualTo("Teclado");
+        assertThat(item.getUnitPrice()).isEqualByComparingTo("250.00");
+        assertThat(item.getQuantity()).isEqualTo(3);
     }
 }

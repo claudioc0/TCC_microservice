@@ -97,6 +97,28 @@ class OrderServiceTest {
     }
 
     @Test
+    @DisplayName("findById deve retornar o pedido mapeado quando existe")
+    void findByIdShouldReturnMappedOrderWhenFound() {
+        Order order = new Order(1L);
+        order.addItem(new OrderItem(order, 1L, "Mouse", new BigDecimal("150.00"), 2));
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+        var result = orderService.findById(1L);
+
+        assertThat(result.userId()).isEqualTo(1L);
+        assertThat(result.totalAmount()).isEqualByComparingTo("300.00");
+        assertThat(result.status()).isEqualTo(OrderStatus.PENDENTE);
+    }
+
+    @Test
+    @DisplayName("findAll deve retornar a lista mapeada de pedidos")
+    void findAllShouldReturnMappedList() {
+        when(orderRepository.findAll()).thenReturn(List.of(new Order(1L), new Order(2L)));
+
+        assertThat(orderService.findAll()).hasSize(2);
+    }
+
+    @Test
     @DisplayName("findByUser deve retornar pedidos do usuário")
     void findByUserShouldReturnUserOrders() {
         when(orderRepository.findByUserId(1L)).thenReturn(List.of(new Order(1L)));
