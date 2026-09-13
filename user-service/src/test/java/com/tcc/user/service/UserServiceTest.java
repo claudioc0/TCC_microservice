@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -105,6 +106,45 @@ class UserServiceTest {
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> userService.findById(99L)).isInstanceOf(UserNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("findById deve retornar o usuário mapeado quando existe")
+    void findByIdShouldReturnMappedUserWhenFound() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(existing));
+
+        var result = userService.findById(1L);
+
+        assertThat(result.name()).isEqualTo("Maria");
+        assertThat(result.email()).isEqualTo("maria@test.com");
+        assertThat(result.role()).isEqualTo("CUSTOMER");
+    }
+
+    @Test
+    @DisplayName("seedIfAbsent não deve salvar quando o e-mail já existe")
+    void seedIfAbsentShouldSkipWhenEmailExists() {
+        when(userRepository.existsByEmail("admin@tcc.com")).thenReturn(true);
+
+        userService.seedIfAbsent("Administrador", "admin@tcc.com", "admin123", UserRole.ADMIN);
+
+        verify(userRepository, never()).save(any());
+        verifyNoInteractions(passwordEncoder);
+    }
+
+    @Test
+    @DisplayName("seedIfAbsent deve codificar a senha e salvar quando o e-mail não existe")
+    void seedIfAbsentShouldEncodeAndSaveWhenEmailIsNew() {
+        when(userRepository.existsByEmail("admin@tcc.com")).thenReturn(false);
+        when(passwordEncoder.encode("admin123")).thenReturn("hashed-admin");
+
+        userService.seedIfAbsent("Administrador", "admin@tcc.com", "admin123", UserRole.ADMIN);
+
+        verify(passwordEncoder).encode("admin123");
+        verify(userRepository).save(argThat(u ->
+                u.getName().equals("Administrador")
+                        && u.getEmail().equals("admin@tcc.com")
+                        && u.getPassword().equals("hashed-admin")
+                        && u.getRole() == UserRole.ADMIN));
     }
 
     @Test
