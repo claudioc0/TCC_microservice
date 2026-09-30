@@ -10,7 +10,7 @@
 | Métrica | Ferramenta | Dimensão (GQM) | Status |
 |---|---|---|---|
 | Branch Coverage | JaCoCo | Adequação da suíte | Coletado |
-| Mutation Score | PITest | Força da suíte | Coletado — Test Strength 100% |
+| Mutation Score | PITest | Força da suíte | Coletado — 82,9% (174/210), Test Strength 85,3% |
 | Densidade de Violações | ArchUnit | Integridade estrutural | Coletado — 0/17 |
 | Acoplamento (CBO) | `ck` 0.7.0 | Esforço de isolamento/mock | Coletado — CBO médio 6,71 |
 
@@ -37,12 +37,23 @@ compilador pode mudar o total de mutantes gerados no PITest — e mudou: ver not
 
 ## 1. Branch Coverage (JaCoCo)
 
+Contagens absolutas (colunas `BRANCH_*`/`INSTRUCTION_*` do `jacoco.csv`, mesmo método do
+monólito), rodada de 2026-09-30:
+
 | Serviço | Instruções | Ramos |
 |---|---:|---:|
-| user-service | 98,6% | 100% |
-| product-service | 99,3% | 100% |
-| order-service | 95,0% | 96,4% |
-| report-service | 95,7% | 100% |
+| user-service | 761/772 = 98,6% | 16/16 = 100% |
+| product-service | 703/708 = 99,3% | 10/10 = 100% |
+| order-service | 1.072/1.129 = 95,0% | 27/28 = 96,4% |
+| report-service | 446/466 = 95,7% | 10/10 = 100% |
+| **Agregado** | **2.982/3.075 = 97,0%** | **63/64 = 98,4%** |
+
+Monólito, mesmo JDK/JaCoCo 0.8.11: **34/42 = 81,0%** de ramos. Nota de leitura: o sistema em
+microsserviços tem 64 ramos contra 42 do monólito — o número de decisões cresce com a
+decomposição (4 filtros JWT, 4 handlers de erro, clients HTTP), não só a cobertura.
+
+**Determinismo:** `mvn clean test` rodado 3× por serviço; hash MD5 do `jacoco.csv` idêntico
+nas 3 execuções em todos os 4 serviços.
 
 **Leitura honesta — duas rodadas de fechamento de lacuna nesta sprint:**
 
@@ -58,45 +69,89 @@ compilador pode mudar o total de mutantes gerados no PITest — e mudou: ver not
    por serviço (`AuthIntegrationTest`, `ProductIntegrationTest`, `OrderIntegrationTest`,
    `ReportIntegrationTest`) — subindo o agregado para 95–99% de instruções e 96–100% de ramos.
 
-O resíduo restante em `order-service` (95,0% / 96,4%, o único não-100%) está concentrado em
-ramos de tratamento de erro de infraestrutura (`ProductServiceUnavailableException` em cenários
-de rede não simulados) — não regra de negócio sem teste.
+O único ramo não coberto nos 4 serviços é `OrderController.findAll`, linha 62
+(`startDate != null && endDate != null`): nenhum teste chama `GET /api/orders` com só uma
+das duas datas. *(A rodada anterior atribuía esse resíduo a `ProductServiceUnavailableException`
+— a leitura do relatório HTML do JaCoCo mostra que não é o caso.)*
 
 ---
 
 ## 2. Mutation Score (PITest)
 
-Alvo: pacotes `*.entity`, `*.service` e `*.security` (onde vive a regra de negócio), mutadores
-`DEFAULTS` do PITest, gerado sob JDK 21.0.12.1.
+> **Rodada de 2026-09-30 — escopo alinhado com o monólito.** Até a rodada anterior, o PITest
+> daqui mutava só `*.entity`, `*.service` e `*.security`, e `targetTests` estava restrito
+> aos testes desses mesmos pacotes — ou seja, os testes de Controller (`@WebMvcTest`) e os 4
+> `@SpringBootTest` de integração não participavam da matança de mutantes. O monólito muta o
+> pacote inteiro (`com.pucpr.tcc.monolith.*`) com todos os testes, exceto `architecture.*`,
+> e já tinha removido suas próprias exclusões por inflarem o score (ameaça 2 do lado dele).
+> Os 4 `pom.xml` agora usam exatamente o mesmo critério (`com.tcc.<servico>.*` como alvo e
+> como testes, `excludedTestClasses` = `com.tcc.<servico>.architecture.*`, mutadores
+> `DEFAULTS`, PITest 1.15.3). Os números abaixo substituem os da rodada anterior; os antigos
+> ficam em "Histórico" no fim desta seção.
+
+| Serviço | Mutantes | Mortos | Mutation Score | Sobreviventes | Sem cobertura | Test Strength |
+|---|---:|---:|---:|---:|---:|---:|
+| user-service | 50 | 39 | 78,0% | 10 | 1 | 79,6% (39/49) |
+| product-service | 56 | 50 | 89,3% | 6 | 0 | 89,3% (50/56) |
+| order-service | 75 | 64 | 85,3% | 8 | 3 | 88,9% (64/72) |
+| report-service | 29 | 21 | 72,4% | 6 | 2 | 77,8% (21/27) |
+| **Agregado** | **210** | **174** | **82,9%** | **30** | **6** | **85,3% (174/204)** |
+
+Monólito, mesmo JDK e mesma configuração: **137/170 = 80,6%**, Test Strength
+**137/143 = 95,8%** (6 sobreviventes, 27 sem cobertura).
+
+**Determinismo:** PITest rodado 2× por serviço — conjunto de mutantes e status de cada um
+idênticos mutante a mutante (classe, método, linha, mutador, índice) nas duas execuções.
+
+### Correção de uma afirmação da rodada anterior
+
+A rodada anterior atribuía os mutantes `NO_COVERAGE` de `SecurityConfig` a "um artefato do
+PITest com o proxy CGLIB de classes `@Configuration`". **Isso estava errado.** Com o escopo
+de testes alinhado, esses mesmos métodos passam a ser executados (pelos `@SpringBootTest` e
+`@WebMvcTest`) — não eram inalcançáveis, só não eram executados pelos testes que estavam no
+escopo. E, uma vez executados, **sobrevivem**: o "Test Strength 100%" anterior era um efeito
+do escopo restrito, não uma propriedade da suíte.
+
+### Os 30 sobreviventes, por categoria
+
+| Categoria | Qtde | Onde | Leitura |
+|---|---:|---|---|
+| Wiring de `SecurityConfig` (`corsConfigurationSource` ×4 mutantes, `securityFilterChain`, `passwordEncoder`) | 21 | 4 serviços (5–6 por serviço) | Mesma categoria de 1 dos sobreviventes do monólito (`SecurityConfig#securityFilterChain`). Nenhum teste verifica headers CORS nem que a cadeia de filtros foi de fato a customizada. |
+| `GlobalExceptionHandler$ErrorResponse.of` retornando `null` | 4 | 4 serviços | Os testes checam o status HTTP do erro, não o corpo JSON. |
+| `DatabaseSeeder` (user-service) | 3 | user-service | Mesma categoria de 3 dos 6 sobreviventes do monólito. |
+| `RestClientConfig#restClientBuilder` | 1 | order-service | Wiring de framework. |
+| `OrderResponse$OrderItemResponse.from` retornando `null` | 1 | order-service | Nenhum teste inspeciona os itens na resposta do pedido. |
+
+**Leitura para a comparação:** a maior parte do resíduo (21 de 30) é o mesmo código de
+configuração transversal (`SecurityConfig`) **replicado nos 4 serviços** — cada cópia gera
+seu próprio conjunto de mutantes sobreviventes. É um efeito arquitetural direto da
+decomposição: no monólito existe uma `SecurityConfig`; aqui existem quatro, e a mesma lacuna
+de teste conta quatro vezes. Isso explica boa parte da queda de Test Strength em relação ao
+monólito (85,3% vs. 95,8%) e deve ser relatado como tal, não como "suíte mais fraca" em
+regra de negócio — em `entity`/`service` dos 4 serviços não há nenhum sobrevivente.
+
+### Os 6 sem cobertura
+
+| Serviço | Método | Por quê |
+|---|---|---|
+| order-service | `GlobalExceptionHandler.handleInsufficientStock`, `handleProductNotFound`, `handleProductServiceUnavailable` | Nenhum teste propaga esses erros do product-service até o handler HTTP. |
+| report-service | `GlobalExceptionHandler.handleAccessDenied`, `handleOrderServiceUnavailable` | Idem, para o order-service indisponível e acesso negado. |
+| user-service | `UserController.findById` | Endpoint sem teste. |
+
+Todos são teste faltando em caminho de erro — nenhum exige mudança em código de produção.
+
+### Histórico — rodada anterior (escopo restrito, 2026-09-13)
 
 | Serviço | Mutantes | Mortos | Mutation Score | Sem cobertura | Test Strength |
 |---|---:|---:|---:|---:|---:|
-| user-service | 32 | 26 | 81% | 6 | **100%** |
-| product-service | 41 | 36 | 88% | 5 | **100%** |
-| order-service | 54 | 49 | 91% | 5 | **100%** |
-| report-service | 22 | 17 | 77% | 5 | **100%** |
+| user-service | 32 | 26 | 81% | 6 | 100% |
+| product-service | 41 | 36 | 88% | 5 | 100% |
+| order-service | 54 | 49 | 91% | 5 | 100% |
+| report-service | 22 | 17 | 77% | 5 | 100% |
 
-**Nota sobre a recontagem em `order-service`:** a mesma suíte, recompilada sob JDK 21 em vez de
-17, gerou 54 mutantes em vez dos 57 medidos antes — o Mutation Score (91%) e o Test Strength
-(100%) não mudaram, mas o total de mutantes mudou porque o bytecode que o PITest analisa é
-diferente entre compiladores. É exatamente a razão pela qual a seção 0 registra a *patch
-version* exata: números de mutação de lados diferentes do experimento só são comparáveis se
-gerados no mesmo JDK, e essa é a primeira coleta com essa garantia.
-
-**Por que reportamos Test Strength junto do Mutation Score:** Mutation Score bruto
-(mortos / total gerado) penaliza igualmente um mutante que a suíte tentou matar e falhou e um
-mutante em código que nenhum teste jamais executa — os dois casos viram "sobrevivente".
-Test Strength isola o primeiro caso (mortos / (mortos + sobreviventes), excluindo
-`NO_COVERAGE`) e responde à pergunta real do experimento: *dos mutantes que a suíte tinha
-chance de matar, quantos ela matou?* Nos quatro serviços esse número é **100%** — nenhum
-mutante executado sobreviveu sem ser pego por uma asserção.
-
-A diferença entre Mutation Score e Test Strength (5–6 mutantes "sem cobertura" por serviço) é,
-em todos os casos, o mesmo artefato de ferramenta: métodos `@Bean` de `SecurityConfig`, que o
-PITest não instrumenta corretamente sob o proxy CGLIB gerado pelo Spring para classes
-`@Configuration` — uma limitação documentada da combinação PITest+Spring, não uma lacuna de
-teste real. O comportamento desses beans já foi validado de forma independente via chamadas
-`curl` ponta a ponta contra os serviços em execução.
+Não comparável com o monólito: escopo de classes e de testes diferente do dele. A nota de
+2026-09-13 sobre JDK 17 → 21 (57 → 54 mutantes em `order-service`) continua válida como
+registro histórico.
 
 ---
 
@@ -142,13 +197,15 @@ acoplamento entre domínios (ex.: `Order` → `Product`) ter migrado de dependê
 
 ## Ameaças à validade — status
 
-Item respondido a partir de `pendencias-microservicos.md` (lado do monólito):
+Itens 1–3 respondidos a partir de `pendencias-microservicos.md` (lado do monólito); item 4
+encontrado deste lado, na rodada de 2026-09-30:
 
 | # | Ameaça | Status | Como foi fechada |
 |---|---|---|---|
 | 1 | JDK 21 não declarado formalmente | **Resolvido** | Temurin 21.0.12.1 instalado, `<java.version>` atualizado nos 4 `pom.xml`, `mvn clean test` revalidado nos 4 serviços |
 | 2 | CBO sem par comparativo | **Resolvido** | `ck` 0.7.0 rodado nos 4 serviços — ver seção 4 e `docs/reports/acoplamento-cbo.md` |
 | 3 | Assimetria de testes de integração | **Resolvido (Opção A — equalizado)** | 4 testes `@SpringBootTest` adicionados (um por serviço), branch coverage remedido — ver seção 1 |
+| 4 | Escopo do PITest divergente do monólito (só `entity/service/security`, e só os testes desses pacotes) | **Resolvido (2026-09-30)** | Escopo alinhado ao do monólito nos 4 `pom.xml`; Test Strength foi de 100% para 85,3% — ver seção 2 |
 
 ---
 
@@ -162,5 +219,39 @@ Item respondido a partir de `pendencias-microservicos.md` (lado do monólito):
 | Controller com `@WebMvcTest` (product/order) | ausente | presente |
 | Teste dedicado de `JwtAuthenticationFilter` | ausente (4 serviços) | presente (4 serviços) |
 | Teste de integração `@SpringBootTest` por serviço | ausente (4 serviços) | presente (4 serviços) |
-| Mutation Score / Test Strength | não executado | executado sob JDK 21 — Test Strength 100% (4 serviços) |
+| Mutation Score / Test Strength | não executado | executado sob JDK 21, escopo alinhado ao monólito — 82,9% / Test Strength 85,3% (4 serviços) |
 | CBO (`ck`) | não instrumentado | 6,71 médio agregado (4 serviços, 48 classes) |
+
+---
+
+## Log de execuções — rodada de 2026-09-30
+
+Ambiente: JDK 21.0.12.1 Temurin, Maven 3.9.16, JaCoCo 0.8.11, PITest 1.15.3, ArchUnit 1.2.1.
+
+| Serviço | Testes (3 rodadas) | Duração | MD5 `jacoco.csv` (3 rodadas) | PITest 2× |
+|---|---|---|---|---|
+| user-service | 35/35, 0 falhas ×3 | 22–24s | `bda1079d…` idêntico | idêntico mutante a mutante |
+| product-service | 49/49, 0 falhas ×3 | 23–24s | `88b6273f…` idêntico | idêntico mutante a mutante |
+| order-service | 63/63, 0 falhas ×3 | 24s | `380aaf11…` idêntico | idêntico mutante a mutante |
+| report-service | 24/24, 0 falhas ×3 | 18s | `51919408…` idêntico | idêntico mutante a mutante |
+| **Total** | **171/171, 0 falhas** | | | |
+
+ArchUnit incluído nos testes acima: 0 violações em todas as rodadas. CBO não foi remedido:
+nenhum arquivo de `src/main` mudou desde a medição de 2026-09-13 (só `pom.xml`).
+
+## Comparação consolidada com o monólito (mesmo JDK, mesmas versões de ferramenta)
+
+| Métrica | Monólito | Microsserviços |
+|---|---|---|
+| Testes | 98/98 | 171/171 |
+| Branch Coverage | 34/42 = 81,0% | 63/64 = 98,4% |
+| Mutation Score | 137/170 = 80,6% | 174/210 = 82,9% |
+| Test Strength | 137/143 = 95,8% | 174/204 = 85,3% |
+| Violações ArchUnit | 0/7 | 0/17 |
+| CBO médio | 7,45 (29 classes) | 6,71 (48 classes) |
+
+Leitura resumida: microsserviços têm mais cobertura (menos código não exercitado: 6 mutantes
+`NO_COVERAGE` vs. 27), mas Test Strength menor, puxado pela `SecurityConfig` replicada nos 4
+serviços (21 dos 30 sobreviventes). Há duas ressalvas. A diferença de cobertura também reflete
+esforço de teste diferente: 171 testes contra 98, incluindo `@WebMvcTest` que o monólito não
+tem. E as regras ArchUnit (7 vs. 17) não são as mesmas.

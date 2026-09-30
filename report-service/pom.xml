@@ -105,13 +105,14 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
-                        <param>com.tcc.report.service.*</param>
-                        <param>com.tcc.report.security.*</param>
+                        <param>com.tcc.report.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>com.tcc.report.service.*</param>
-                        <param>com.tcc.report.security.*</param>
+                        <param>com.tcc.report.*</param>
                     </targetTests>
+                    <excludedTestClasses>
+                        <param>com.tcc.report.architecture.*</param>
+                    </excludedTestClasses>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
                     </mutators>

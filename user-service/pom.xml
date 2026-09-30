@@ -118,15 +118,14 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
-                        <param>com.tcc.user.entity.*</param>
-                        <param>com.tcc.user.service.*</param>
-                        <param>com.tcc.user.security.*</param>
+                        <param>com.tcc.user.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>com.tcc.user.entity.*</param>
-                        <param>com.tcc.user.service.*</param>
-                        <param>com.tcc.user.security.*</param>
+                        <param>com.tcc.user.*</param>
                     </targetTests>
+                    <excludedTestClasses>
+                        <param>com.tcc.user.architecture.*</param>
+                    </excludedTestClasses>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
                     </mutators>
