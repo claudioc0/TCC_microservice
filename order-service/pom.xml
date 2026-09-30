@@ -118,15 +118,14 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
-                        <param>com.tcc.order.entity.*</param>
-                        <param>com.tcc.order.service.*</param>
-                        <param>com.tcc.order.security.*</param>
+                        <param>com.tcc.order.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>com.tcc.order.entity.*</param>
-                        <param>com.tcc.order.service.*</param>
-                        <param>com.tcc.order.security.*</param>
+                        <param>com.tcc.order.*</param>
                     </targetTests>
+                    <excludedTestClasses>
+                        <param>com.tcc.order.architecture.*</param>
+                    </excludedTestClasses>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
                     </mutators>

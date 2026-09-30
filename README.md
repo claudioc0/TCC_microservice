@@ -98,11 +98,27 @@ Cada serviço tem sua própria suíte (JUnit 5 + Mockito + ArchUnit; `order-serv
 `report-service` também testam seus clients HTTP com `MockRestServiceServer`):
 
 ```bash
-cd user-service    && mvn test   # 24 testes
-cd product-service && mvn test   # 19 testes
-cd order-service   && mvn test   # 36 testes
-cd report-service  && mvn test   # 18 testes
+cd user-service    && mvn test   # 35 testes
+cd product-service && mvn test   # 49 testes
+cd order-service   && mvn test   # 63 testes
+cd report-service  && mvn test   # 24 testes
 ```
+
+### Rodada completa de métricas (Windows)
+
+Para reproduzir a coleta de métricas com o mesmo protocolo do monólito (3× `mvn clean test`
+por serviço com MD5 do `jacoco.csv`, 2× PITest com comparação mutante a mutante), rode na
+raiz do repositório:
+
+```bat
+rodar-testes.bat            :: rodada completa (~20 min)
+rodar-testes.bat rapido     :: só 1× mvn clean test, sem PITest (~2 min)
+```
+
+Pré-requisitos: JDK 21 (Temurin 21.0.12.1, a referência do experimento) e Maven 3.9+ no
+`PATH`. O resultado fica em `resultados-execucao\<MAQUINA>_<DATA>\resumo.txt` (a pasta não
+é versionada), com os logs, os `jacoco.csv` e os `mutations.xml` de cada rodada. O próprio
+resumo traz os valores de referência para conferência.
 
 JaCoCo (branch coverage) e PITest (mutation score) estão configurados no `pom.xml` de
 cada serviço individualmente:
