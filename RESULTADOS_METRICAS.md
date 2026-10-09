@@ -239,6 +239,17 @@ Ambiente: JDK 21.0.12.1 Temurin, Maven 3.9.16, JaCoCo 0.8.11, PITest 1.15.3, Arc
 ArchUnit incluído nos testes acima: 0 violações em todas as rodadas. CBO não foi remedido:
 nenhum arquivo de `src/main` mudou desde a medição de 2026-09-13 (só `pom.xml`).
 
+### Verificação independente — Vinicius (2026-10-09)
+
+Executada com `rodar-testes.bat` (modo completo) em outra máquina. Resultado **idêntico** à
+rodada de referência em todos os pontos: 171/171 testes nas 3 rodadas, MD5 do `jacoco.csv`
+igual aos 4 hashes de referência (relatório idêntico byte a byte), ramos 63/64, PITest
+174/210 (Test Strength 174/204) com as 2 rodadas idênticas mutante a mutante, inclusive a
+contagem de sobreviventes e de mutantes sem cobertura por serviço.
+
+*Pendente: o cabeçalho do `resumo.txt` (máquina, JDK, commit) não foi recebido junto. A
+igualdade do total de mutantes indica o mesmo JDK, mas ele ainda não foi confirmado.*
+
 ## Comparação consolidada com o monólito (mesmo JDK, mesmas versões de ferramenta)
 
 | Métrica | Monólito | Microsserviços |
