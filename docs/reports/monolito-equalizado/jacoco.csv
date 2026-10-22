@@ -1,0 +1,46 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+monolith-ecommerce,com.pucpr.tcc.monolith.products.exception,ProductNotFoundException,0,5,0,0,0,2,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.products.exception,InsufficientStockException,0,21,0,0,0,3,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.service,OrderService,0,178,0,4,0,43,0,15,0,13
+monolith-ecommerce,com.pucpr.tcc.monolith.security,JwtAuthenticationFilter,0,91,0,10,0,28,0,8,0,3
+monolith-ecommerce,com.pucpr.tcc.monolith.security,SecurityConfig,0,134,0,0,0,26,0,8,0,8
+monolith-ecommerce,com.pucpr.tcc.monolith.security,ApplicationConfig,0,43,0,0,0,11,0,7,0,7
+monolith-ecommerce,com.pucpr.tcc.monolith.security,DatabaseSeeder,0,46,0,4,0,11,0,5,0,3
+monolith-ecommerce,com.pucpr.tcc.monolith.security,JwtService,0,107,1,3,0,27,1,12,0,11
+monolith-ecommerce,com.pucpr.tcc.monolith.users.controller,AuthController,0,20,0,0,0,5,0,3,0,3
+monolith-ecommerce,com.pucpr.tcc.monolith.users.controller,UserController,0,28,0,0,0,8,0,5,0,5
+monolith-ecommerce,com.pucpr.tcc.monolith.users.service,UserService,0,148,0,4,0,34,0,10,0,8
+monolith-ecommerce,com.pucpr.tcc.monolith.products.service,ProductService,0,147,0,2,0,39,0,12,0,11
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.controller,OrderController,0,47,0,0,0,10,0,7,0,7
+monolith-ecommerce,com.pucpr.tcc.monolith.users.dto,AuthResponse,0,31,0,0,0,2,0,2,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.users.dto,UserResponse,0,33,0,0,0,3,0,2,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.users.dto,RegisterRequest,0,12,0,0,0,1,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.users.dto,LoginRequest,0,9,0,0,0,1,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith,MonolithApplication,5,3,0,0,2,1,1,1,1,1
+monolith-ecommerce,com.pucpr.tcc.monolith.users.entity,UserRole,0,15,0,0,0,3,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.users.entity,User,0,66,0,0,0,22,0,15,0,15
+monolith-ecommerce,com.pucpr.tcc.monolith.products.entity,Product,0,66,0,0,0,23,0,15,0,15
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.dto,OrderRequest,0,6,0,0,0,1,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.dto,OrderResponse.OrderItemResponse,0,37,0,0,0,8,0,2,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.dto,OrderRequest.OrderItemRequest,0,9,0,0,0,1,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.dto,UpdateStatusRequest,0,6,0,0,0,1,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.dto,OrderResponse,0,46,0,0,0,9,0,2,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.reports.controller,ReportController,0,13,0,0,0,4,0,2,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.exception,OrderNotFoundException,0,5,0,0,0,2,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.exception,InvalidStatusTransitionException,0,19,0,0,0,2,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.exception,GlobalExceptionHandler,0,100,0,2,0,25,0,11,0,10
+monolith-ecommerce,com.pucpr.tcc.monolith.exception,GlobalExceptionHandler.ErrorResponse,0,25,0,0,0,2,0,2,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.exception,GlobalExceptionHandler.ValidationErrorResponse,0,15,0,0,0,1,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.products.dto,ProductRequest,0,15,0,0,0,1,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.products.dto,ProductResponse,0,42,0,0,0,5,0,2,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.entity,OrderItem,0,48,0,0,0,15,0,9,0,9
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.entity,Order,0,102,0,2,0,30,0,15,0,14
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.entity,OrderStatus.new OrderStatus() {...},0,12,0,2,0,2,0,3,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.entity,OrderStatus.new OrderStatus() {...},0,7,0,0,0,2,0,2,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.entity,OrderStatus.new OrderStatus() {...},0,15,0,4,0,2,0,4,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.entity,OrderStatus.new OrderStatus() {...},0,15,0,4,0,2,0,4,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.entity,OrderStatus.new OrderStatus() {...},0,7,0,0,0,2,0,2,0,2
+monolith-ecommerce,com.pucpr.tcc.monolith.orders.entity,OrderStatus,0,33,0,0,0,6,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.products.controller,ProductController,0,45,0,0,0,10,0,7,0,7
+monolith-ecommerce,com.pucpr.tcc.monolith.reports.dto,SalesReportResponse,0,24,0,0,0,1,0,1,0,1
+monolith-ecommerce,com.pucpr.tcc.monolith.reports.service,ReportService,0,52,0,0,0,11,0,2,0,2

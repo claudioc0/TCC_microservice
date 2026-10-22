@@ -1,0 +1,15 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+report-service,com.tcc.report.dto,SalesReportResponse,0,24,0,0,0,1,0,1,0,1
+report-service,com.tcc.report.client,OrderClient.new ParameterizedTypeReference() {...},0,3,0,0,0,1,0,1,0,1
+report-service,com.tcc.report.client,OrderClient,0,62,0,0,0,13,0,3,0,3
+report-service,com.tcc.report,ReportServiceApplication,5,3,0,0,2,1,1,1,1,1
+report-service,com.tcc.report.client.dto,OrderSummaryDto,0,18,0,0,0,1,0,1,0,1
+report-service,com.tcc.report.exception,OrderServiceUnavailableException,0,5,0,0,0,2,0,1,0,1
+report-service,com.tcc.report.exception,GlobalExceptionHandler.ErrorResponse,0,25,0,0,0,2,0,2,0,2
+report-service,com.tcc.report.exception,GlobalExceptionHandler,15,11,0,0,4,3,2,2,2,2
+report-service,com.tcc.report.security,AuthenticatedPrincipal,0,12,0,0,0,1,0,1,0,1
+report-service,com.tcc.report.security,JwtService,0,48,0,0,0,13,0,4,0,4
+report-service,com.tcc.report.security,JwtAuthenticationFilter,0,54,0,6,0,13,0,5,0,2
+report-service,com.tcc.report.security,SecurityConfig,0,88,0,0,0,21,0,6,0,6
+report-service,com.tcc.report.controller,ReportController,0,14,0,0,0,4,0,2,0,2
+report-service,com.tcc.report.service,ReportService,0,79,0,4,0,14,0,7,0,5
