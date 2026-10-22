@@ -66,7 +66,7 @@ Os números do monólito foram reconferidos a partir dos arquivos brutos dele
 do relatório.
 
 > **Monólito equalizado.** A coluna "Monólito" acima é o baseline (98 testes). O monólito
-> tem também um estado equalizado (commit `518b8c9`, 180 testes, com `@WebMvcTest`): 41/42 =
+> tem também um estado equalizado (commit `3b6cb32`, 180 testes, com `@WebMvcTest`): 41/42 =
 > 97,6% de ramos e 167/170 = 98,2% de Mutation Score, reproduzidos em
 > [`monolito-equalizado/`](monolito-equalizado/). A comparação com esse estado está em
 > [`analise-comparativa.md`](analise-comparativa.md).

@@ -31,7 +31,7 @@ Duas consequências metodológicas:
 | Estado | Repositório e commit | Testes | Papel na análise |
 |---|---|---:|---|
 | Monólito, baseline | `TCC_monolith` `1c05487` | 98 | Histórico: medição antes da equalização |
-| **Monólito, equalizado** | `TCC_monolith` `518b8c9` (branch `feature/equalizacao-testes-monolito`) | **180** | **Estado principal do monólito** |
+| **Monólito, equalizado** | `TCC_monolith` `3b6cb32` (branch `feature/equalizacao-testes-monolito`) | **180** | **Estado principal do monólito** |
 | **Microsserviços** | `TCC_microservice` `13e58b9` (`main`) | **171** | **Estado principal dos microsserviços** |
 | Microsserviços + testes transversais | `TCC_microservice` `0a3f88b` (branch `resultados-e`) | 203 | Análise de sensibilidade (4.4) |
 
@@ -73,19 +73,19 @@ A assimetria que resta está nos testes de integração (29 contra 6) e, como mo
 | Branch Coverage (Q1) | 41/42 = 97,6% | 63/64 = 98,4% | equivalente (0,8 p.p.) |
 | Mutation Score (Q2) | 167/170 = 98,2% | 174/210 = 82,9% | monólito +15,3 p.p. |
 | Test Strength (Q2) | 167/170 = 98,2% | 174/204 = 85,3% | monólito +12,9 p.p. |
-| Violações ArchUnit, regras alinhadas (Q3) | 3 de 8 regras violadas | 0 de 8 | microsserviços |
+| Violações ArchUnit, regras alinhadas (Q3) | 3 de 8 regras violadas (29 ocorrências) | 0 de 8 | microsserviços |
 | CBO médio (Q4) | 7,45 (29 tipos) | 6,26 (53 tipos) | microsserviços −1,19 |
 
 Ambiente nos dois lados: JDK 21.0.12.1 Temurin, JaCoCo 0.8.11, PITest 1.15.3 (mutadores
 `DEFAULTS`, pacote inteiro como alvo, testes de arquitetura excluídos), ArchUnit 1.2.1, ck
 0.7.0. O CBO não muda com a equalização, porque o código de produção é o mesmo.
 
-> **Correção sobre o relatório do monólito equalizado.** O `monolito-mutation-score.md` do
-> commit `518b8c9` registra 171/174 = 98,3%. Reproduzido em JDK 21.0.12.1, o resultado é
-> **167/170 = 98,2%**, com os mesmos 3 sobreviventes. 174 é o total de mutantes que o
-> monólito gera em JDK 17; em JDK 21 são 170. O mesmo relatório dá 424/467 linhas para o
-> baseline, e o valor verificado é 407/450. Os números desta análise vêm da reprodução em
-> `monolito-equalizado/`.
+> **Sobre a primeira versão do monólito equalizado.** O commit `518b8c9` registrava 171/174 =
+> 98,3% e 424/467 linhas no baseline. A reprodução independente deu **167/170 = 98,2%** (os
+> mesmos 3 sobreviventes) e 407/450. O commit seguinte, `3b6cb32`, corrigiu os relatórios e
+> atribuiu o 174 a um build sujo (`target/classes` sem `mvn clean`). Os números desta análise
+> vêm da reprodução em `monolito-equalizado/`, e a suíte de `3b6cb32` foi reconferida (180
+> testes, `jacoco.csv` idêntico byte a byte).
 
 ---
 
@@ -276,17 +276,20 @@ decomposição também criou caminhos de falha remota que exigem testes próprio
 
 ### 5.1 Comparação direta
 
-Cada lado passa nas próprias regras: monólito equalizado com 0 violações em 10 regras,
-microsserviços com 0 em 17. Os dois números não são comparáveis. Os conjuntos de regras são
-diferentes, e **duas das três regras de paridade do monólito equalizado foram relaxadas** com
-exceções:
+Nas próprias regras, o monólito equalizado tem **8 violações em 10 regras** (2 regras
+violadas) e os microsserviços **0 em 17**. As duas regras violadas do monólito são regras de
+paridade, copiadas dos microsserviços: `controllersShouldNotDependOnEntities` (5) e
+`repositoriesShouldOnlyBeAccessedByServices` (3). A suíte do monólito continua verde porque
+essas duas regras fixam por asserção o número exato de violações conhecidas, e não porque as
+violações foram corrigidas ou excluídas.
 
-- `repositoriesShouldOnlyBeAccessedByServices` aceita acesso a partir de `..security..`, além
-  de `..service..`;
-- `controllersShouldNotDependOnEntities` exclui a entidade `User`.
+A primeira versão da equalização (`518b8c9`) relaxava essas duas regras com exceções e chegava
+a "0 violações ativas". Isso foi corrigido em `3b6cb32`: as regras voltaram a ser estritas,
+iguais às dos microsserviços.
 
-As violações estão documentadas no Javadoc da regra e no relatório do monólito, mas a regra
-que roda já não é a mesma dos microsserviços.
+Mesmo assim, os totais por lado não são comparáveis diretamente, porque os conjuntos de
+regras são diferentes (10 contra 17, e uma parte das regras dos microsserviços se repete por
+serviço).
 
 ### 5.2 Regras alinhadas
 
@@ -322,15 +325,15 @@ O que são as violações do monólito:
 
 A equalização confirma esse resultado por outro caminho: ao adicionar as regras de paridade,
 o monólito encontrou exatamente as mesmas 8 violações de A4 e A6, e optou por documentá-las
-e criar exceções em vez de mudar o código de produção.
+em vez de mudar o código de produção.
 
 **Leitura: fronteira física contra disciplina.** As regras do monólito passam, e a equipe já
 corrigiu 11 violações reais ao longo do projeto. Mas um conjunto de regras um pouco mais
-estrito revela 8 pontos de dependência que o desenho permitiu, e a forma de "passar" nessas
-regras foi relaxá-las. Nos microsserviços, as mesmas regras passam em todos os serviços sem
+estrito revela 8 pontos de dependência que o desenho permitiu, e corrigi-los exigiria mudar
+código de produção. Nos microsserviços, as mesmas regras passam em todos os serviços sem
 exceção, e a regra de fronteira não tem como falhar, porque a classe de outro serviço não
 existe no classpath. **No monólito, a integridade depende de quais regras a equipe decide
-escrever e de quais exceções aceita. Nos microsserviços, a fronteira entre domínios é
+escrever. Nos microsserviços, a fronteira entre domínios é
 garantida pela separação física em módulos.**
 
 **Conclusão para Q3:** com regras alinhadas e sem exceções, os microsserviços têm
@@ -400,7 +403,7 @@ rede que a métrica não enxerga.
 | 2 | Em regra de negócio, a força dos testes é equivalente | Q2 | Mutation Score de domínio 100,0% contra 98,4% (4.2) |
 | 3 | O código transversal replicado multiplica o custo de teste | Q2 | 85 mutantes transversais contra 54; 29 dos 30 sobreviventes; cada teste transversal do monólito precisaria existir uma vez por serviço (4.3, 4.4) |
 | 4 | A decomposição cria caminhos de falha distribuída que exigem testes próprios | Q2 | 4 dos 6 mutantes sem cobertura em handlers de falha remota (4.7) |
-| 5 | Com regras alinhadas e sem exceções, os microsserviços têm integridade estrutural maior, e parte dela é imposta pela separação física | Q3 | 0 de 8 regras violadas contra 3 de 8; o monólito só passa nas regras de paridade com exceções (5.1, 5.2) |
+| 5 | Com regras alinhadas e sem exceções, os microsserviços têm integridade estrutural maior, e parte dela é imposta pela separação física | Q3 | 0 de 8 regras violadas contra 3 de 8; nas regras de paridade, o monólito tem 8 violações documentadas (5.1, 5.2) |
 | 6 | O acoplamento mudou de forma, não necessariamente de quantidade | Q4 | 21 dependências Java entre domínios no monólito, com correspondência direta com os clientes HTTP e o principal JWT (6.3) |
 
 ---
@@ -416,8 +419,8 @@ rede que a métrica não enxerga.
   cada serviço.
 - A decomposição criou uma categoria de caminho de falha (falha de serviço remoto) que não
   existe no monólito e que exige testes próprios.
-- A separação física em módulos garante a fronteira entre domínios sem depender de regras e
-  exceções escolhidas pela equipe.
+- A separação física em módulos garante a fronteira entre domínios sem depender das regras
+  escolhidas pela equipe.
 - O acoplamento estático em código Java é menor nos microsserviços, e o acoplamento entre
   domínios passou a ser de contrato de rede.
 
@@ -429,7 +432,7 @@ rede que a métrica não enxerga.
 | "Os testes do monólito são mais fortes" | Em regra de negócio, 100,0% contra 98,4%; a diferença está em testes transversais que um lado escreveu e o outro não (4.3) |
 | "Microsserviços são menos testáveis" | A força em regra de negócio é igual; o que muda é o **custo** de testar o código transversal, não a possibilidade |
 | "A decomposição reduziu o acoplamento entre domínios" | O acoplamento migrou para contratos de rede, que o CBO não mede (6.3) |
-| "O monólito equalizado tem 0 violações, como os microsserviços" | As regras de paridade do monólito têm exceções; sem elas, são 8 violações em 2 regras (5.1) |
+| "Os dois lados têm o mesmo resultado de ArchUnit" | Nas regras de paridade, o monólito tem 8 violações em 2 regras, fixadas por asserção para a suíte ficar verde; os microsserviços, nenhuma (5.1) |
 | Qualquer diferença "estatisticamente significativa" | Métricas determinísticas, sem variância; teste de hipótese não se aplica (1.1) |
 | Generalização para monólitos e microsserviços em geral | n = 1 por arquitetura (ver 9) |
 
@@ -453,8 +456,8 @@ rede que a métrica não enxerga.
 - **A equalização foi feita depois das primeiras medições**, por quem já conhecia as lacunas
   da suíte dos microsserviços. Os testes novos do monólito podem ter sido direcionados aos
   mutantes conhecidos.
-- **Regras ArchUnit relaxadas no monólito equalizado.** A comparação de Q3 usa o conjunto
-  alinhado sem exceções (5.2), não as regras de cada lado.
+- **Regras ArchUnit diferentes nos dois lados.** A comparação de Q3 usa o conjunto alinhado
+  sem exceções (5.2), não as regras de cada lado.
 - **Critério de sensibilidade formalizado depois da análise exploratória** (4.6). Mitigado por
   ser uma regra mecânica, aplicada igualmente aos dois lados.
 - **Mesmos autores nos dois lados.**
@@ -481,7 +484,7 @@ rede que a métrica não enxerga.
 | Análise | Arquivos |
 |---|---|
 | Microsserviços (`main`) | `jacoco/*/jacoco.csv`, `pitest/*/mutations.xml`, `surefire/*/TEST-*.xml`, `ck/*/class.csv`, `metricas.json` |
-| Monólito equalizado | `monolito-equalizado/jacoco.csv`, `mutations.xml`, `surefire/` (reprodução do commit `518b8c9` em JDK 21.0.12.1, 3 rodadas de testes e 2 de PITest idênticas) |
+| Monólito equalizado | `monolito-equalizado/jacoco.csv`, `mutations.xml`, `surefire/` (reprodução do commit `518b8c9` em JDK 21.0.12.1, 3 rodadas de testes e 2 de PITest idênticas; `3b6cb32` só muda as regras de paridade e dá o mesmo `jacoco.csv`) |
 | Monólito baseline | `TCC_monolith/docs/reports/jacoco/jacoco.csv`, `pitest/mutations.xml`, `ck/class.csv` (commit `1c05487`) |
 | Por domínio, baseline | `por-dominio.json` |
 | Microsserviços sem `@WebMvcTest` | `sensibilidade/sem-webmvctest/<servico>/` |
