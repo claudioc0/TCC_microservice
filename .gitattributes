@@ -1,0 +1,8 @@
+# Arquivos brutos das ferramentas: guardados byte a byte, sem conversão de quebra de linha.
+# Os hashes MD5 citados nos relatórios (ex.: jacoco.csv) só conferem com o arquivo exato.
+docs/reports/jacoco/** -text
+docs/reports/pitest/** -text
+docs/reports/surefire/** -text
+docs/reports/ck/** -text
+docs/reports/monolito-equalizado/** -text
+docs/reports/sensibilidade/** -text
