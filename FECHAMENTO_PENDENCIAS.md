@@ -56,6 +56,10 @@
 
 **CBO médio agregado: 6,71** (48 classes) — comparável ao 7,45 (29 classes) do monólito.
 
+> **Correção posterior (2026-10-19):** os dois valores usavam critérios de contagem diferentes.
+> Com o critério do monólito (excluir só classes anônimas), o valor de microsserviços é 6,26
+> (53 tipos). Ver `docs/reports/resultados-finais.md`, seção 7.
+
 **Onde conferir:** `docs/reports/acoplamento-cbo.md`; `RESULTADOS_METRICAS.md`, seção 4.
 
 ## 3. Assimetria de esforço de teste (testes de integração)

@@ -1,0 +1,33 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+order-service,com.tcc.order.client,ProductClient,28,115,0,0,8,30,0,4,0,4
+order-service,com.tcc.order.exception,InvalidStatusTransitionException,0,19,0,0,0,2,0,1,0,1
+order-service,com.tcc.order.exception,GlobalExceptionHandler,24,62,0,2,6,13,3,6,3,5
+order-service,com.tcc.order.exception,GlobalExceptionHandler.ErrorResponse,0,25,0,0,0,2,0,2,0,2
+order-service,com.tcc.order.exception,OrderNotFoundException,0,5,0,0,0,2,0,1,0,1
+order-service,com.tcc.order.exception,GlobalExceptionHandler.ValidationErrorResponse,0,15,0,0,0,1,0,1,0,1
+order-service,com.tcc.order.exception,ProductServiceUnavailableException,0,5,0,0,0,2,0,1,0,1
+order-service,com.tcc.order.exception,InsufficientStockException,0,5,0,0,0,2,0,1,0,1
+order-service,com.tcc.order.exception,ProductNotFoundException,0,5,0,0,0,2,0,1,0,1
+order-service,com.tcc.order.service,OrderService,0,168,0,4,0,28,0,12,0,10
+order-service,com.tcc.order.controller,OrderController,0,60,1,3,0,12,1,8,0,7
+order-service,com.tcc.order,OrderServiceApplication,5,3,0,0,2,1,1,1,1,1
+order-service,com.tcc.order.security,SecurityConfig,0,98,0,0,0,22,0,8,0,8
+order-service,com.tcc.order.security,AuthenticatedPrincipal,0,12,0,0,0,1,0,1,0,1
+order-service,com.tcc.order.security,JwtAuthenticationFilter,0,54,0,6,0,13,0,5,0,2
+order-service,com.tcc.order.security,JwtService,0,48,0,0,0,13,0,4,0,4
+order-service,com.tcc.order.entity,OrderStatus.new OrderStatus() {...},0,7,0,0,0,2,0,2,0,2
+order-service,com.tcc.order.entity,OrderStatus.new OrderStatus() {...},0,7,0,0,0,2,0,2,0,2
+order-service,com.tcc.order.entity,OrderStatus.new OrderStatus() {...},0,15,0,4,0,2,0,4,0,2
+order-service,com.tcc.order.entity,OrderStatus.new OrderStatus() {...},0,12,0,2,0,2,0,3,0,2
+order-service,com.tcc.order.entity,OrderStatus.new OrderStatus() {...},0,15,0,4,0,2,0,4,0,2
+order-service,com.tcc.order.entity,OrderStatus,0,33,0,0,0,6,0,1,0,1
+order-service,com.tcc.order.entity,OrderItem,0,48,0,0,0,15,0,9,0,9
+order-service,com.tcc.order.entity,Order,0,102,0,2,0,28,0,15,0,14
+order-service,com.tcc.order.config,RestClientConfig,0,9,0,0,0,2,0,2,0,2
+order-service,com.tcc.order.dto,UpdateStatusRequest,0,6,0,0,0,1,0,1,0,1
+order-service,com.tcc.order.dto,OrderRequest,0,6,0,0,0,1,0,1,0,1
+order-service,com.tcc.order.dto,OrderResponse,0,46,0,0,0,5,0,2,0,2
+order-service,com.tcc.order.dto,OrderRequest.OrderItemRequest,0,9,0,0,0,1,0,1,0,1
+order-service,com.tcc.order.dto,OrderResponse.OrderItemResponse,0,37,0,0,0,3,0,2,0,2
+order-service,com.tcc.order.client.dto,ProductDto,0,15,0,0,0,1,0,1,0,1
+order-service,com.tcc.order.client.dto,StockAdjustmentPayload,0,6,0,0,0,1,0,1,0,1

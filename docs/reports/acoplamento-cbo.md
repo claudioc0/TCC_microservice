@@ -5,6 +5,13 @@
 > `ck` **0.7.0** — mesma versão usada no lado do monólito, para os números
 > serem comparáveis metodologicamente.
 
+> **Correção de 2026-10-19.** As tabelas abaixo contam só `type = class` do `class.csv`
+> (48 classes, média 6,71). O monólito usa outro critério: exclui só as classes anônimas e
+> mantém interfaces e enums. Com o mesmo critério do monólito, o CBO médio dos microsserviços
+> é **6,26** (53 tipos), e esse é o valor de referência para a comparação. Os valores por
+> classe abaixo continuam corretos. Ver [`resultados-finais.md`](resultados-finais.md),
+> seção 7, e os arquivos brutos em `ck/<servico>/class.csv`.
+
 ## Como foi coletado
 
 ```bash

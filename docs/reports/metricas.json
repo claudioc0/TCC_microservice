@@ -1,0 +1,1682 @@
+{
+ "servicos": {
+  "user-service": {
+   "jacoco": {
+    "total": {
+     "INSTRUCTION_MISSED": 11,
+     "INSTRUCTION_COVERED": 761,
+     "BRANCH_MISSED": 0,
+     "BRANCH_COVERED": 16,
+     "LINE_MISSED": 3,
+     "LINE_COVERED": 158
+    },
+    "por_pacote": {
+     "(raiz)": {
+      "INSTRUCTION_MISSED": 5,
+      "INSTRUCTION_COVERED": 22,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 2,
+      "LINE_COVERED": 6
+     },
+     "controller": {
+      "INSTRUCTION_MISSED": 6,
+      "INSTRUCTION_COVERED": 45,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 1,
+      "LINE_COVERED": 12
+     },
+     "dto": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 85,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 6
+     },
+     "entity": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 61,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 19
+     },
+     "exception": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 124,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 2,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 24
+     },
+     "security": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 253,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 6,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 61
+     },
+     "service": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 171,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 8,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 30
+     }
+    },
+    "ramos_abertos": [],
+    "md5": "BDA1079DDA384C0CD9C07FEEE8FA77FB",
+    "fonte": "jacoco\\user-service\\jacoco.csv"
+   },
+   "pitest": {
+    "total": 50,
+    "mortos": 39,
+    "sobreviventes": 10,
+    "sem_cobertura": 1,
+    "status": {
+     "KILLED": 39,
+     "SURVIVED": 10,
+     "NO_COVERAGE": 1
+    },
+    "por_pacote": {
+     "(raiz)": {
+      "total": 3,
+      "SURVIVED": 3
+     },
+     "controller": {
+      "total": 7,
+      "mortos": 6,
+      "NO_COVERAGE": 1
+     },
+     "dto": {
+      "total": 2,
+      "mortos": 2
+     },
+     "entity": {
+      "total": 6,
+      "mortos": 6
+     },
+     "exception": {
+      "total": 6,
+      "mortos": 5,
+      "SURVIVED": 1
+     },
+     "security": {
+      "total": 16,
+      "SURVIVED": 6,
+      "mortos": 10
+     },
+     "service": {
+      "total": 10,
+      "mortos": 10
+     }
+    },
+    "residuo": [
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 58,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/CorsConfiguration::setAllowedMethods",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 59,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/CorsConfiguration::setAllowedHeaders",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 61,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/UrlBasedCorsConfigurationSource::registerCorsConfiguration",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 62,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/user/security/SecurityConfig::corsConfigurationSource",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "passwordEncoder",
+      "linha": 51,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/user/security/SecurityConfig::passwordEncoder",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "securityFilterChain",
+      "linha": 46,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/user/security/SecurityConfig::securityFilterChain",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "UserController",
+      "pacote": "controller",
+      "metodo": "findById",
+      "linha": 37,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/user/controller/UserController::findById",
+      "status": "NO_COVERAGE"
+     },
+     {
+      "classe": "DatabaseSeeder",
+      "pacote": "(raiz)",
+      "metodo": "lambda$seedUsers$0",
+      "linha": 15,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to com/tcc/user/service/UserService::seedIfAbsent",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "DatabaseSeeder",
+      "pacote": "(raiz)",
+      "metodo": "lambda$seedUsers$0",
+      "linha": 16,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to com/tcc/user/service/UserService::seedIfAbsent",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "DatabaseSeeder",
+      "pacote": "(raiz)",
+      "metodo": "seedUsers",
+      "linha": 14,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/user/DatabaseSeeder::seedUsers",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "GlobalExceptionHandler$ErrorResponse",
+      "pacote": "exception",
+      "metodo": "of",
+      "linha": 55,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/user/exception/GlobalExceptionHandler$ErrorResponse::of",
+      "status": "SURVIVED"
+     }
+    ],
+    "fonte": "pitest\\user-service\\mutations.xml"
+   },
+   "surefire": [
+    {
+     "classe": "AuthIntegrationTest",
+     "pacote": "user",
+     "testes": 1,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 17.307,
+     "casos": [
+      "fullAuthLifecycle_ShouldRegisterLoginAndEnforceAuthorizationThroughRealStack"
+     ]
+    },
+    {
+     "classe": "ArchitectureTest",
+     "pacote": "architecture",
+     "testes": 4,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 3.88,
+     "casos": [
+      "controllersShouldNotAccessRepositoriesDirectly",
+      "namingConventionShouldBeRespected",
+      "controllersShouldNotDependOnEntities",
+      "repositoriesShouldOnlyBeAccessedByServices"
+     ]
+    },
+    {
+     "classe": "AuthControllerTest",
+     "pacote": "controller",
+     "testes": 5,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 1.835,
+     "casos": [
+      "register_WithValidData_ShouldReturnCreated",
+      "register_WithInvalidEmail_ShouldReturnBadRequest",
+      "login_WithValidCredentials_ShouldReturnOk",
+      "login_WithInvalidCredentials_ShouldReturnUnauthorized",
+      "register_WithDuplicateEmail_ShouldReturnConflict"
+     ]
+    },
+    {
+     "classe": "UserTest",
+     "pacote": "entity",
+     "testes": 3,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.4,
+     "casos": [
+      "onCreateShouldSetCreatedAt",
+      "constructorShouldPopulateAllFields",
+      "getIdShouldReturnAssignedId"
+     ]
+    },
+    {
+     "classe": "JwtAuthenticationFilterTest",
+     "pacote": "security",
+     "testes": 4,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.856,
+     "casos": [
+      "noAuthorizationHeader_continuesChainWithoutAuthentication",
+      "invalidToken_doesNotSetAuthentication",
+      "validToken_setsAuthenticationInContext",
+      "headerNotBearer_continuesChainWithoutAuthentication"
+     ]
+    },
+    {
+     "classe": "JwtServiceTest",
+     "pacote": "security",
+     "testes": 6,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.07,
+     "casos": [
+      "shouldInvalidateTokenSignedWithDifferentKey",
+      "shouldGenerateNonEmptyToken",
+      "shouldValidateGeneratedTokenAsTrue",
+      "shouldInvalidateMalformedToken",
+      "shouldExtractPrincipalFromToken",
+      "shouldInvalidateExpiredToken"
+     ]
+    },
+    {
+     "classe": "UserServiceTest",
+     "pacote": "service",
+     "testes": 12,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.668,
+     "casos": [
+      "seedIfAbsentShouldSkipWhenEmailExists",
+      "findByIdShouldReturnMappedUserWhenFound",
+      "findAllShouldReturnMappedList",
+      "registerShouldSaveEncodedPasswordAndReturnToken",
+      "loginShouldThrowWhenEmailNotFound",
+      "loginShouldThrowWhenPasswordWrong",
+      "findByIdShouldThrowWhenNotFound",
+      "loginShouldReturnTokenWhenValid",
+      "seedIfAbsentShouldEncodeAndSaveWhenEmailIsNew",
+      "deleteShouldRemoveExisting",
+      "registerShouldThrowWhenEmailExists",
+      "deleteShouldThrowWhenNotFound"
+     ]
+    }
+   ],
+   "ck": [
+    {
+     "classe": "AuthController",
+     "tipo": "class",
+     "pacote": "controller",
+     "cbo": 10
+    },
+    {
+     "classe": "UserNotFoundException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 0
+    },
+    {
+     "classe": "DuplicateEmailException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 0
+    },
+    {
+     "classe": "UserRepository",
+     "tipo": "interface",
+     "pacote": "repository",
+     "cbo": 3
+    },
+    {
+     "classe": "UserService",
+     "tipo": "class",
+     "pacote": "service",
+     "cbo": 14
+    },
+    {
+     "classe": "User",
+     "tipo": "class",
+     "pacote": "entity",
+     "cbo": 8
+    },
+    {
+     "classe": "UserController",
+     "tipo": "class",
+     "pacote": "controller",
+     "cbo": 11
+    },
+    {
+     "classe": "DatabaseSeeder",
+     "tipo": "class",
+     "pacote": "(raiz)",
+     "cbo": 4
+    },
+    {
+     "classe": "GlobalExceptionHandler",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 11
+    },
+    {
+     "classe": "InvalidCredentialsException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 0
+    },
+    {
+     "classe": "JwtService",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 5
+    },
+    {
+     "classe": "UserServiceApplication",
+     "tipo": "class",
+     "pacote": "(raiz)",
+     "cbo": 2
+    },
+    {
+     "classe": "UserRole",
+     "tipo": "enum",
+     "pacote": "entity",
+     "cbo": 0
+    },
+    {
+     "classe": "SecurityConfig",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 13
+    },
+    {
+     "classe": "JwtAuthenticationFilter",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 10
+    }
+   ]
+  },
+  "product-service": {
+   "jacoco": {
+    "total": {
+     "INSTRUCTION_MISSED": 5,
+     "INSTRUCTION_COVERED": 703,
+     "BRANCH_MISSED": 0,
+     "BRANCH_COVERED": 10,
+     "LINE_MISSED": 2,
+     "LINE_COVERED": 142
+    },
+    "por_pacote": {
+     "(raiz)": {
+      "INSTRUCTION_MISSED": 5,
+      "INSTRUCTION_COVERED": 3,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 2,
+      "LINE_COVERED": 1
+     },
+     "controller": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 63,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 12
+     },
+     "dto": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 63,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 5
+     },
+     "entity": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 99,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 2,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 29
+     },
+     "exception": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 128,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 2,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 21
+     },
+     "security": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 222,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 6,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 50
+     },
+     "service": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 125,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 24
+     }
+    },
+    "ramos_abertos": [],
+    "md5": "88B6273F2A28C6EF654777A7EF68FBA8",
+    "fonte": "jacoco\\product-service\\jacoco.csv"
+   },
+   "pitest": {
+    "total": 56,
+    "mortos": 50,
+    "sobreviventes": 6,
+    "sem_cobertura": 0,
+    "status": {
+     "KILLED": 50,
+     "SURVIVED": 6
+    },
+    "por_pacote": {
+     "controller": {
+      "total": 9,
+      "mortos": 9
+     },
+     "dto": {
+      "total": 1,
+      "mortos": 1
+     },
+     "entity": {
+      "total": 11,
+      "mortos": 11
+     },
+     "exception": {
+      "total": 5,
+      "mortos": 4,
+      "SURVIVED": 1
+     },
+     "security": {
+      "total": 14,
+      "SURVIVED": 5,
+      "mortos": 9
+     },
+     "service": {
+      "total": 16,
+      "mortos": 16
+     }
+    },
+    "residuo": [
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 51,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/CorsConfiguration::setAllowedMethods",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 52,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/CorsConfiguration::setAllowedHeaders",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 54,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/UrlBasedCorsConfigurationSource::registerCorsConfiguration",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 55,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/product/security/SecurityConfig::corsConfigurationSource",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "securityFilterChain",
+      "linha": 44,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/product/security/SecurityConfig::securityFilterChain",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "GlobalExceptionHandler$ErrorResponse",
+      "pacote": "exception",
+      "metodo": "of",
+      "linha": 49,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/product/exception/GlobalExceptionHandler$ErrorResponse::of",
+      "status": "SURVIVED"
+     }
+    ],
+    "fonte": "pitest\\product-service\\mutations.xml"
+   },
+   "surefire": [
+    {
+     "classe": "ProductIntegrationTest",
+     "pacote": "product",
+     "testes": 1,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 7.989,
+     "casos": [
+      "fullProductLifecycle_ShouldPersistAndEnforceAuthorizationThroughRealStack"
+     ]
+    },
+    {
+     "classe": "ArchitectureTest",
+     "pacote": "architecture",
+     "testes": 4,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 3.799,
+     "casos": [
+      "controllersShouldNotAccessRepositoriesDirectly",
+      "namingConventionShouldBeRespected",
+      "controllersShouldNotDependOnEntities",
+      "repositoriesShouldOnlyBeAccessedByServices"
+     ]
+    },
+    {
+     "classe": "ProductControllerTest",
+     "pacote": "controller",
+     "testes": 14,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 10.229,
+     "casos": [
+      "decreaseStock_WhenInsufficientStock_ShouldReturnUnprocessableEntity",
+      "delete_WithAdminRole_ShouldReturnNoContent",
+      "findById_ShouldReturnNotFoundWhenMissing",
+      "create_WithoutAdminRole_ShouldReturnForbidden",
+      "delete_WithoutAdminRole_ShouldReturnForbidden",
+      "create_WithInvalidBody_ShouldReturnBadRequest",
+      "create_WithoutAuthentication_ShouldBeRejected",
+      "create_WithAdminRole_ShouldReturnCreated",
+      "update_WithAdminRole_ShouldReturnOk",
+      "findAll_ShouldReturnOkWithList",
+      "searchByName_ShouldReturnFilteredList",
+      "decreaseStock_Authenticated_ShouldReturnOk",
+      "findById_ShouldReturnOk",
+      "increaseStock_Authenticated_ShouldReturnOk"
+     ]
+    },
+    {
+     "classe": "ProductTest",
+     "pacote": "entity",
+     "testes": 9,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.323,
+     "casos": [
+      "shouldDecreaseStock",
+      "shouldThrowWhenInsufficientStock",
+      "onUpdateShouldRefreshOnlyUpdatedAt",
+      "settersShouldModifyFields",
+      "constructorShouldPopulateAllFields",
+      "onCreateShouldSetTimestamps",
+      "getIdShouldReturnAssignedId",
+      "shouldIncreaseStock",
+      "shouldAllowDecreaseToExactZero"
+     ]
+    },
+    {
+     "classe": "JwtAuthenticationFilterTest",
+     "pacote": "security",
+     "testes": 4,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.491,
+     "casos": [
+      "noAuthorizationHeader_continuesChainWithoutAuthentication",
+      "invalidToken_doesNotSetAuthentication",
+      "validToken_setsAuthenticationInContext",
+      "headerNotBearer_continuesChainWithoutAuthentication"
+     ]
+    },
+    {
+     "classe": "JwtServiceTest",
+     "pacote": "security",
+     "testes": 5,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.022,
+     "casos": [
+      "shouldExtractPrincipalFromValidToken",
+      "shouldInvalidateTokenSignedWithDifferentKey",
+      "shouldValidateValidTokenAsTrue",
+      "shouldInvalidateMalformedToken",
+      "shouldInvalidateExpiredToken"
+     ]
+    },
+    {
+     "classe": "ProductServiceTest",
+     "pacote": "service",
+     "testes": 12,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.301,
+     "casos": [
+      "findByIdShouldReturnMappedProductWhenFound",
+      "decreaseStockShouldDelegateAndSave",
+      "updateShouldThrowWhenNotFound",
+      "findAllShouldReturnMappedList",
+      "updateShouldModifyAllFieldsAndSave",
+      "findByIdShouldThrowWhenNotFound",
+      "deleteShouldRemoveExisting",
+      "increaseStockShouldDelegateAndSave",
+      "createShouldSave",
+      "decreaseStockShouldPropagateWhenInsufficient",
+      "deleteShouldThrowWhenNotFound",
+      "searchByNameShouldReturnMappedList"
+     ]
+    }
+   ],
+   "ck": [
+    {
+     "classe": "ProductService",
+     "tipo": "class",
+     "pacote": "service",
+     "cbo": 8
+    },
+    {
+     "classe": "InsufficientStockException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 0
+    },
+    {
+     "classe": "Product",
+     "tipo": "class",
+     "pacote": "entity",
+     "cbo": 8
+    },
+    {
+     "classe": "GlobalExceptionHandler",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 10
+    },
+    {
+     "classe": "ProductServiceApplication",
+     "tipo": "class",
+     "pacote": "(raiz)",
+     "cbo": 2
+    },
+    {
+     "classe": "JwtAuthenticationFilter",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 10
+    },
+    {
+     "classe": "JwtService",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 5
+    },
+    {
+     "classe": "ProductNotFoundException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 0
+    },
+    {
+     "classe": "ProductController",
+     "tipo": "class",
+     "pacote": "controller",
+     "cbo": 17
+    },
+    {
+     "classe": "SecurityConfig",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 11
+    },
+    {
+     "classe": "ProductRepository",
+     "tipo": "interface",
+     "pacote": "repository",
+     "cbo": 3
+    }
+   ]
+  },
+  "order-service": {
+   "jacoco": {
+    "total": {
+     "INSTRUCTION_MISSED": 57,
+     "INSTRUCTION_COVERED": 1072,
+     "BRANCH_MISSED": 1,
+     "BRANCH_COVERED": 27,
+     "LINE_MISSED": 16,
+     "LINE_COVERED": 220
+    },
+    "por_pacote": {
+     "(raiz)": {
+      "INSTRUCTION_MISSED": 5,
+      "INSTRUCTION_COVERED": 3,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 2,
+      "LINE_COVERED": 1
+     },
+     "client": {
+      "INSTRUCTION_MISSED": 28,
+      "INSTRUCTION_COVERED": 136,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 8,
+      "LINE_COVERED": 32
+     },
+     "config": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 9,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 2
+     },
+     "controller": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 60,
+      "BRANCH_MISSED": 1,
+      "BRANCH_COVERED": 3,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 12
+     },
+     "dto": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 104,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 11
+     },
+     "entity": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 239,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 12,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 59
+     },
+     "exception": {
+      "INSTRUCTION_MISSED": 24,
+      "INSTRUCTION_COVERED": 141,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 2,
+      "LINE_MISSED": 6,
+      "LINE_COVERED": 26
+     },
+     "security": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 212,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 6,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 49
+     },
+     "service": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 168,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 4,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 28
+     }
+    },
+    "ramos_abertos": [
+     {
+      "classe": "OrderController",
+      "pacote": "controller",
+      "cobertos": 3,
+      "total": 4
+     }
+    ],
+    "md5": "380AAF115FF687AFE8D5ABA76C5C489C",
+    "fonte": "jacoco\\order-service\\jacoco.csv"
+   },
+   "pitest": {
+    "total": 75,
+    "mortos": 64,
+    "sobreviventes": 8,
+    "sem_cobertura": 3,
+    "status": {
+     "KILLED": 64,
+     "NO_COVERAGE": 3,
+     "SURVIVED": 8
+    },
+    "por_pacote": {
+     "client": {
+      "total": 1,
+      "mortos": 1
+     },
+     "config": {
+      "total": 1,
+      "SURVIVED": 1
+     },
+     "controller": {
+      "total": 9,
+      "mortos": 9
+     },
+     "dto": {
+      "total": 2,
+      "SURVIVED": 1,
+      "mortos": 1
+     },
+     "entity": {
+      "total": 26,
+      "mortos": 26
+     },
+     "exception": {
+      "total": 8,
+      "mortos": 4,
+      "NO_COVERAGE": 3,
+      "SURVIVED": 1
+     },
+     "security": {
+      "total": 14,
+      "SURVIVED": 5,
+      "mortos": 9
+     },
+     "service": {
+      "total": 14,
+      "mortos": 14
+     }
+    },
+    "residuo": [
+     {
+      "classe": "GlobalExceptionHandler",
+      "pacote": "exception",
+      "metodo": "handleInsufficientStock",
+      "linha": 38,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/order/exception/GlobalExceptionHandler::handleInsufficientStock",
+      "status": "NO_COVERAGE"
+     },
+     {
+      "classe": "GlobalExceptionHandler",
+      "pacote": "exception",
+      "metodo": "handleProductNotFound",
+      "linha": 32,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/order/exception/GlobalExceptionHandler::handleProductNotFound",
+      "status": "NO_COVERAGE"
+     },
+     {
+      "classe": "GlobalExceptionHandler",
+      "pacote": "exception",
+      "metodo": "handleProductServiceUnavailable",
+      "linha": 44,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/order/exception/GlobalExceptionHandler::handleProductServiceUnavailable",
+      "status": "NO_COVERAGE"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 50,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/CorsConfiguration::setAllowedMethods",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 51,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/CorsConfiguration::setAllowedHeaders",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 53,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/UrlBasedCorsConfigurationSource::registerCorsConfiguration",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 54,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/order/security/SecurityConfig::corsConfigurationSource",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "securityFilterChain",
+      "linha": 43,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/order/security/SecurityConfig::securityFilterChain",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "GlobalExceptionHandler$ErrorResponse",
+      "pacote": "exception",
+      "metodo": "of",
+      "linha": 67,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/order/exception/GlobalExceptionHandler$ErrorResponse::of",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "OrderResponse$OrderItemResponse",
+      "pacote": "dto",
+      "metodo": "from",
+      "linha": 26,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/order/dto/OrderResponse$OrderItemResponse::from",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "RestClientConfig",
+      "pacote": "config",
+      "metodo": "restClientBuilder",
+      "linha": 22,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/order/config/RestClientConfig::restClientBuilder",
+      "status": "SURVIVED"
+     }
+    ],
+    "fonte": "pitest\\order-service\\mutations.xml"
+   },
+   "surefire": [
+    {
+     "classe": "OrderIntegrationTest",
+     "pacote": "order",
+     "testes": 2,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 4.891,
+     "casos": [
+      "fullOrderLifecycle_ShouldPersistAndTransitionThroughRealStack",
+      "createWithoutToken_ShouldBeRejectedByRealSecurityFilterChain"
+     ]
+    },
+    {
+     "classe": "ArchitectureTest",
+     "pacote": "architecture",
+     "testes": 6,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 2.781,
+     "casos": [
+      "onlyServiceShouldAccessProductClient",
+      "shouldNotDependOnOtherServicesPackages",
+      "controllersShouldNotAccessRepositoriesDirectly",
+      "namingConventionShouldBeRespected",
+      "controllersShouldNotDependOnEntities",
+      "repositoriesShouldOnlyBeAccessedByServices"
+     ]
+    },
+    {
+     "classe": "ProductClientTest",
+     "pacote": "client",
+     "testes": 6,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.949,
+     "casos": [
+      "decreaseStockShouldThrowInsufficientStockOn422",
+      "getProductShouldThrowNotFoundOn404",
+      "getProductShouldReturnProductAndForwardAuthHeader",
+      "increaseStockShouldSendPatchWithQuantity",
+      "getProductShouldThrowUnavailableOn500",
+      "decreaseStockShouldSendPatchWithQuantity"
+     ]
+    },
+    {
+     "classe": "OrderControllerTest",
+     "pacote": "controller",
+     "testes": 12,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 6.009,
+     "casos": [
+      "findAll_WithDateRange_ShouldFilterByPeriod",
+      "updateStatus_WithoutAdminRole_ShouldReturnForbidden",
+      "findById_ShouldReturnNotFoundWhenMissing",
+      "myOrders_ShouldReturnUserOrders",
+      "updateStatus_WithAdminRole_ShouldReturnOk",
+      "create_WithoutAuthentication_ShouldBeRejected",
+      "updateStatus_WithInvalidTransition_ShouldReturnUnprocessableEntity",
+      "create_WithEmptyItems_ShouldReturnBadRequest",
+      "cancel_Authenticated_ShouldReturnOk",
+      "findAll_WithAdminRole_ShouldReturnAllOrders",
+      "create_Authenticated_ShouldReturnCreated",
+      "findAll_WithoutAdminRole_ShouldReturnForbidden"
+     ]
+    },
+    {
+     "classe": "OrderStatusTransitionTest",
+     "pacote": "entity",
+     "testes": 19,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.061,
+     "casos": [
+      "canceladoIsTerminal",
+      "addItemShouldRecalculateTotal",
+      "confirmadoToEnviadoAllowed",
+      "onUpdateShouldRefreshOnlyUpdatedAt",
+      "pendenteToEnviadoBlocked",
+      "totalAmountShouldBeZeroForEmptyOrder",
+      "entregueIsTerminal",
+      "pendenteToConfirmadoAllowed",
+      "enviadoToEntregueAllowed",
+      "enviadoToCanceladoBlocked",
+      "confirmadoToCanceladoAllowed",
+      "pendenteToEntregueBlocked",
+      "pendenteToCanceladoAllowed",
+      "onCreateShouldSetTimestamps",
+      "constructorShouldPopulateUserIdAndInitialStatus",
+      "getIdShouldReturnAssignedId",
+      "confirmadoToEntregueBlocked",
+      "confirmadoToPendenteBlocked",
+      "orderItemGettersShouldReturnConstructorValues"
+     ]
+    },
+    {
+     "classe": "JwtAuthenticationFilterTest",
+     "pacote": "security",
+     "testes": 4,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.321,
+     "casos": [
+      "noAuthorizationHeader_continuesChainWithoutAuthentication",
+      "invalidToken_doesNotSetAuthentication",
+      "validToken_setsAuthenticationInContext",
+      "headerNotBearer_continuesChainWithoutAuthentication"
+     ]
+    },
+    {
+     "classe": "JwtServiceTest",
+     "pacote": "security",
+     "testes": 5,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.019,
+     "casos": [
+      "shouldExtractPrincipalFromValidToken",
+      "shouldInvalidateTokenSignedWithDifferentKey",
+      "shouldValidateValidTokenAsTrue",
+      "shouldInvalidateMalformedToken",
+      "shouldInvalidateExpiredToken"
+     ]
+    },
+    {
+     "classe": "OrderServiceTest",
+     "pacote": "service",
+     "testes": 9,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.221,
+     "casos": [
+      "cancelShouldCancelAndRestoreStockViaClient",
+      "updateStatusShouldThrowForInvalidTransition",
+      "findAllShouldReturnMappedList",
+      "findByUserShouldReturnUserOrders",
+      "findByIdShouldThrowForUnknownId",
+      "updateStatusShouldTransitionCorrectly",
+      "findByPeriodShouldQueryFullDayRange",
+      "createShouldQueryAndDecreaseStockViaClient",
+      "findByIdShouldReturnMappedOrderWhenFound"
+     ]
+    }
+   ],
+   "ck": [
+    {
+     "classe": "OrderRepository",
+     "tipo": "interface",
+     "pacote": "repository",
+     "cbo": 3
+    },
+    {
+     "classe": "JwtAuthenticationFilter",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 10
+    },
+    {
+     "classe": "RestClientConfig",
+     "tipo": "class",
+     "pacote": "config",
+     "cbo": 4
+    },
+    {
+     "classe": "OrderItem",
+     "tipo": "class",
+     "pacote": "entity",
+     "cbo": 8
+    },
+    {
+     "classe": "OrderStatus",
+     "tipo": "enum",
+     "pacote": "entity",
+     "cbo": 1
+    },
+    {
+     "classe": "InvalidStatusTransitionException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 1
+    },
+    {
+     "classe": "OrderNotFoundException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 0
+    },
+    {
+     "classe": "OrderStatus$Anonymous2",
+     "tipo": "anonymous",
+     "pacote": "entity",
+     "cbo": 1
+    },
+    {
+     "classe": "ProductNotFoundException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 0
+    },
+    {
+     "classe": "OrderStatus$Anonymous1",
+     "tipo": "anonymous",
+     "pacote": "entity",
+     "cbo": 1
+    },
+    {
+     "classe": "OrderStatus$Anonymous4",
+     "tipo": "anonymous",
+     "pacote": "entity",
+     "cbo": 1
+    },
+    {
+     "classe": "OrderStatus$Anonymous3",
+     "tipo": "anonymous",
+     "pacote": "entity",
+     "cbo": 1
+    },
+    {
+     "classe": "OrderStatus$Anonymous5",
+     "tipo": "anonymous",
+     "pacote": "entity",
+     "cbo": 1
+    },
+    {
+     "classe": "OrderService",
+     "tipo": "class",
+     "pacote": "service",
+     "cbo": 12
+    },
+    {
+     "classe": "SecurityConfig",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 11
+    },
+    {
+     "classe": "Order",
+     "tipo": "class",
+     "pacote": "entity",
+     "cbo": 13
+    },
+    {
+     "classe": "OrderServiceApplication",
+     "tipo": "class",
+     "pacote": "(raiz)",
+     "cbo": 2
+    },
+    {
+     "classe": "JwtService",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 5
+    },
+    {
+     "classe": "GlobalExceptionHandler",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 13
+    },
+    {
+     "classe": "ProductClient",
+     "tipo": "class",
+     "pacote": "client",
+     "cbo": 9
+    },
+    {
+     "classe": "OrderController",
+     "tipo": "class",
+     "pacote": "controller",
+     "cbo": 19
+    },
+    {
+     "classe": "InsufficientStockException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 0
+    },
+    {
+     "classe": "ProductServiceUnavailableException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 0
+    }
+   ]
+  },
+  "report-service": {
+   "jacoco": {
+    "total": {
+     "INSTRUCTION_MISSED": 20,
+     "INSTRUCTION_COVERED": 446,
+     "BRANCH_MISSED": 0,
+     "BRANCH_COVERED": 10,
+     "LINE_MISSED": 6,
+     "LINE_COVERED": 90
+    },
+    "por_pacote": {
+     "(raiz)": {
+      "INSTRUCTION_MISSED": 5,
+      "INSTRUCTION_COVERED": 3,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 2,
+      "LINE_COVERED": 1
+     },
+     "client": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 83,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 15
+     },
+     "controller": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 14,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 4
+     },
+     "dto": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 24,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 1
+     },
+     "exception": {
+      "INSTRUCTION_MISSED": 15,
+      "INSTRUCTION_COVERED": 41,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 0,
+      "LINE_MISSED": 4,
+      "LINE_COVERED": 7
+     },
+     "security": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 202,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 6,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 48
+     },
+     "service": {
+      "INSTRUCTION_MISSED": 0,
+      "INSTRUCTION_COVERED": 79,
+      "BRANCH_MISSED": 0,
+      "BRANCH_COVERED": 4,
+      "LINE_MISSED": 0,
+      "LINE_COVERED": 14
+     }
+    },
+    "ramos_abertos": [],
+    "md5": "5191940855EDB034A3C03D2A6B45A5ED",
+    "fonte": "jacoco\\report-service\\jacoco.csv"
+   },
+   "pitest": {
+    "total": 29,
+    "mortos": 21,
+    "sobreviventes": 6,
+    "sem_cobertura": 2,
+    "status": {
+     "KILLED": 21,
+     "SURVIVED": 6,
+     "NO_COVERAGE": 2
+    },
+    "por_pacote": {
+     "client": {
+      "total": 2,
+      "mortos": 2
+     },
+     "controller": {
+      "total": 1,
+      "mortos": 1
+     },
+     "exception": {
+      "total": 4,
+      "NO_COVERAGE": 2,
+      "mortos": 1,
+      "SURVIVED": 1
+     },
+     "security": {
+      "total": 14,
+      "SURVIVED": 5,
+      "mortos": 9
+     },
+     "service": {
+      "total": 8,
+      "mortos": 8
+     }
+    },
+    "residuo": [
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 49,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/CorsConfiguration::setAllowedMethods",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 50,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/CorsConfiguration::setAllowedHeaders",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 52,
+      "mutador": "VoidMethodCallMutator",
+      "descricao": "removed call to org/springframework/web/cors/UrlBasedCorsConfigurationSource::registerCorsConfiguration",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "corsConfigurationSource",
+      "linha": 53,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/report/security/SecurityConfig::corsConfigurationSource",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "SecurityConfig",
+      "pacote": "security",
+      "metodo": "securityFilterChain",
+      "linha": 42,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/report/security/SecurityConfig::securityFilterChain",
+      "status": "SURVIVED"
+     },
+     {
+      "classe": "GlobalExceptionHandler",
+      "pacote": "exception",
+      "metodo": "handleAccessDenied",
+      "linha": 28,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/report/exception/GlobalExceptionHandler::handleAccessDenied",
+      "status": "NO_COVERAGE"
+     },
+     {
+      "classe": "GlobalExceptionHandler",
+      "pacote": "exception",
+      "metodo": "handleOrderServiceUnavailable",
+      "linha": 22,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/report/exception/GlobalExceptionHandler::handleOrderServiceUnavailable",
+      "status": "NO_COVERAGE"
+     },
+     {
+      "classe": "GlobalExceptionHandler$ErrorResponse",
+      "pacote": "exception",
+      "metodo": "of",
+      "linha": 34,
+      "mutador": "NullReturnValsMutator",
+      "descricao": "replaced return value with null for com/tcc/report/exception/GlobalExceptionHandler$ErrorResponse::of",
+      "status": "SURVIVED"
+     }
+    ],
+    "fonte": "pitest\\report-service\\mutations.xml"
+   },
+   "surefire": [
+    {
+     "classe": "ReportIntegrationTest",
+     "pacote": "report",
+     "testes": 2,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 1.492,
+     "casos": [
+      "salesReport_ShouldAggregateOrdersFromOrderServiceThroughRealStack",
+      "salesReport_WithStartAfterEnd_ShouldReturnBadRequest"
+     ]
+    },
+    {
+     "classe": "ArchitectureTest",
+     "pacote": "architecture",
+     "testes": 3,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 2.845,
+     "casos": [
+      "shouldNotDependOnOtherServicesPackages",
+      "onlyServiceShouldAccessOrderClient",
+      "namingConventionShouldBeRespected"
+     ]
+    },
+    {
+     "classe": "OrderClientTest",
+     "pacote": "client",
+     "testes": 2,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 1.056,
+     "casos": [
+      "findByPeriodShouldThrowWhenOrderServiceFails",
+      "findByPeriodShouldQueryOrdersWithDateRangeAndToken"
+     ]
+    },
+    {
+     "classe": "ReportControllerTest",
+     "pacote": "controller",
+     "testes": 3,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 6.262,
+     "casos": [
+      "getSalesReport_WithoutAdminRole_ShouldReturnForbidden",
+      "getSalesReport_WithValidDates_ShouldReturnOkAndReport",
+      "getSalesReport_WhenServiceThrowsException_ShouldReturnBadRequest"
+     ]
+    },
+    {
+     "classe": "JwtAuthenticationFilterTest",
+     "pacote": "security",
+     "testes": 4,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.568,
+     "casos": [
+      "noAuthorizationHeader_continuesChainWithoutAuthentication",
+      "invalidToken_doesNotSetAuthentication",
+      "validToken_setsAuthenticationInContext",
+      "headerNotBearer_continuesChainWithoutAuthentication"
+     ]
+    },
+    {
+     "classe": "JwtServiceTest",
+     "pacote": "security",
+     "testes": 5,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.023,
+     "casos": [
+      "shouldExtractPrincipalFromValidToken",
+      "shouldInvalidateTokenSignedWithDifferentKey",
+      "shouldValidateValidTokenAsTrue",
+      "shouldInvalidateMalformedToken",
+      "shouldInvalidateExpiredToken"
+     ]
+    },
+    {
+     "classe": "ReportServiceTest",
+     "pacote": "service",
+     "testes": 5,
+     "falhas": 0,
+     "erros": 0,
+     "ignorados": 0,
+     "tempo": 0.081,
+     "casos": [
+      "shouldReturnZeroedTotalsWhenNoOrders",
+      "shouldAcceptEqualStartAndEndDate",
+      "shouldForwardBearerTokenToOrderClient",
+      "shouldComputeTotalsFromOrderClientResponse",
+      "shouldThrowWhenStartDateAfterEndDate"
+     ]
+    }
+   ],
+   "ck": [
+    {
+     "classe": "GlobalExceptionHandler",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 7
+    },
+    {
+     "classe": "OrderServiceUnavailableException",
+     "tipo": "class",
+     "pacote": "exception",
+     "cbo": 0
+    },
+    {
+     "classe": "ReportService",
+     "tipo": "class",
+     "pacote": "service",
+     "cbo": 4
+    },
+    {
+     "classe": "ReportServiceApplication",
+     "tipo": "class",
+     "pacote": "(raiz)",
+     "cbo": 2
+    },
+    {
+     "classe": "OrderClient$Anonymous1",
+     "tipo": "anonymous",
+     "pacote": "client",
+     "cbo": 0
+    },
+    {
+     "classe": "SecurityConfig",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 11
+    },
+    {
+     "classe": "JwtService",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 5
+    },
+    {
+     "classe": "OrderClient",
+     "tipo": "class",
+     "pacote": "client",
+     "cbo": 7
+    },
+    {
+     "classe": "ReportController",
+     "tipo": "class",
+     "pacote": "controller",
+     "cbo": 10
+    },
+    {
+     "classe": "JwtAuthenticationFilter",
+     "tipo": "class",
+     "pacote": "security",
+     "cbo": 10
+    }
+   ]
+  }
+ }
+}

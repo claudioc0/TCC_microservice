@@ -104,6 +104,12 @@ cd order-service   && mvn test   # 63 testes
 cd report-service  && mvn test   # 24 testes
 ```
 
+### Resultados
+
+O estado consolidado das quatro métricas, com cada número rastreável aos arquivos brutos das
+ferramentas, está em [`docs/reports/resultados-finais.md`](docs/reports/resultados-finais.md).
+Os relatórios por métrica (`.docx`, no padrão dos relatórios do monólito) ficam na mesma pasta.
+
 ### Rodada completa de métricas (Windows)
 
 Para reproduzir a coleta de métricas com o mesmo protocolo do monólito (3× `mvn clean test`

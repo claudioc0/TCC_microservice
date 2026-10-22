@@ -1,5 +1,9 @@
 # Resultados de Testabilidade — Microsserviços (TCC)
 
+> Documento de acompanhamento da sprint. O estado consolidado, com cada número rastreável aos
+> arquivos brutos das ferramentas, está em
+> [`docs/reports/resultados-finais.md`](docs/reports/resultados-finais.md).
+
 > Documento gerado a partir da execução real das suítes de teste, JaCoCo, PITest, ArchUnit e
 > `ck` nos quatro microsserviços (`user-service`, `product-service`, `order-service`,
 > `report-service`). Sem números estimados ou hipotéticos — tudo abaixo veio de execução
@@ -12,7 +16,7 @@
 | Branch Coverage | JaCoCo | Adequação da suíte | Coletado |
 | Mutation Score | PITest | Força da suíte | Coletado — 82,9% (174/210), Test Strength 85,3% |
 | Densidade de Violações | ArchUnit | Integridade estrutural | Coletado — 0/17 |
-| Acoplamento (CBO) | `ck` 0.7.0 | Esforço de isolamento/mock | Coletado — CBO médio 6,71 |
+| Acoplamento (CBO) | `ck` 0.7.0 | Esforço de isolamento/mock | Coletado — CBO médio 6,26 (critério do monólito) |
 
 **171 testes automatizados** (JUnit 5 + Mockito, incluindo testes de client HTTP com
 `MockRestServiceServer`, testes de Controller com `@WebMvcTest` e 4 testes de integração
@@ -174,24 +178,28 @@ simplesmente não existem no classpath de outro).
 
 ## 4. Acoplamento (CBO) — `ck` 0.7.0
 
-Detalhe completo, incluindo tabela por camada e por classe, em
-[`docs/reports/acoplamento-cbo.md`](docs/reports/acoplamento-cbo.md).
+> **Correção de 2026-10-19 — critério de contagem alinhado ao monólito.** O valor anterior
+> (6,71, 48 classes) contava só `type = class` do `class.csv`, excluindo repositórios
+> (interfaces) e enums. O monólito exclui só as classes anônimas e mantém interfaces e enums.
+> Com o mesmo critério dos dois lados, o valor é **6,26** (53 tipos) contra 7,45 (29 tipos).
+> A direção não muda; a magnitude sim. Detalhe em
+> [`docs/reports/resultados-finais.md`](docs/reports/resultados-finais.md), seção 7.
 
-| Serviço | Classes | CBO médio | CBO máximo |
+| Serviço | Tipos | CBO médio | CBO máximo |
 |---|---:|---:|---:|
-| user-service | 13 | 6,77 | 14 (`UserService`) |
-| product-service | 10 | 7,10 | 17 (`ProductController`) |
-| order-service | 16 | 6,69 | 19 (`OrderController`) |
+| user-service | 15 | 6,07 | 14 (`UserService`) |
+| product-service | 11 | 6,73 | 17 (`ProductController`) |
+| order-service | 18 | 6,17 | 19 (`OrderController`) |
 | report-service | 9 | 6,22 | 11 (`SecurityConfig`) |
 
-**CBO médio agregado (4 serviços, 48 classes): 6,71** — contra **7,45** (29 classes) do lado
-do monólito.
+**CBO médio agregado (4 serviços, 53 tipos): 6,26** — contra **7,45** (29 tipos) do lado
+do monólito, com o mesmo critério.
 
 Leitura obrigatória junto do número (detalhada no relatório completo): parte da redução vem de
 acoplamento entre domínios (ex.: `Order` → `Product`) ter migrado de dependência Java direta
 (contável pelo CBO) para uma classe cliente HTTP dedicada (`ProductClient`, CBO 9;
 `OrderClient`, CBO 7) — acoplamento de contrato de rede que o CBO não mede. Não é correto ler
-6,71 vs. 7,45 como "a decomposição reduziu o acoplamento real entre produto e pedido".
+6,26 vs. 7,45 como "a decomposição reduziu o acoplamento real entre produto e pedido".
 
 ---
 
@@ -220,7 +228,7 @@ encontrado deste lado, na rodada de 2026-09-30:
 | Teste dedicado de `JwtAuthenticationFilter` | ausente (4 serviços) | presente (4 serviços) |
 | Teste de integração `@SpringBootTest` por serviço | ausente (4 serviços) | presente (4 serviços) |
 | Mutation Score / Test Strength | não executado | executado sob JDK 21, escopo alinhado ao monólito — 82,9% / Test Strength 85,3% (4 serviços) |
-| CBO (`ck`) | não instrumentado | 6,71 médio agregado (4 serviços, 48 classes) |
+| CBO (`ck`) | não instrumentado | 6,26 médio agregado (4 serviços, 53 tipos, critério do monólito) |
 
 ---
 
@@ -250,6 +258,35 @@ contagem de sobreviventes e de mutantes sem cobertura por serviço.
 *Pendente: o cabeçalho do `resumo.txt` (máquina, JDK, commit) não foi recebido junto. A
 igualdade do total de mutantes indica o mesmo JDK, mas ele ainda não foi confirmado.*
 
+### Verificação independente — Eric (2026-10-16)
+
+Executada com `rodar-testes.bat` (modo completo) num clone limpo do `main`, **commit
+`13e58b9`**, sem alterações locais, em uma terceira máquina e com **outro fornecedor e outra
+versão de JDK** (Oracle 21.0.9, Maven 3.9.9, Windows 11). Resultado **idêntico** à rodada de
+referência: 171/171 testes nas 3 rodadas, MD5 do `jacoco.csv` igual aos 4 hashes de
+referência, ramos 63/64, PITest 174/210 (Test Strength 174/204), com as 2 rodadas idênticas
+e a mesma contagem de sobreviventes e de mutantes sem cobertura por serviço.
+
+O JDK diferente não alterou nenhuma métrica, nem o total de mutantes gerados (210).
+
+**Divergência anterior, já resolvida (categoria "código diferente", não erro de medição).**
+Uma primeira execução do Eric (2026-10-12) deu 203 testes e 187/210. Ela foi feita sobre o
+branch `resultados-e`, que acrescenta 32 testes (`GlobalExceptionHandlerTest` nos 4 serviços,
+`UserControllerTest` e `DatabaseSeederTest`) sem alterar código de produção. A comparação
+mutante a mutante entre esse branch e o `main` mostrou o mesmo conjunto de 210 mutantes, com
+13 mudando para `KILLED`: 6 que eram `NO_COVERAGE` (handlers de falha remota e
+`UserController.findById`) e 7 que eram `SURVIVED` (3 em `DatabaseSeeder`, 4 em
+`ErrorResponse.of`). O resultado desse branch também foi reproduzido de forma idêntica numa
+segunda máquina. O branch fica fora do `main` para preservar a referência do experimento.
+
+### Resumo das verificações
+
+| Execução | Máquina | JDK | Commit | Resultado |
+|---|---|---|---|---|
+| Referência (Claudio, 2026-09-30) | DESKTOP-BDKDDA6 | Temurin 21.0.12.1 | `6231961` | 171 testes · 63/64 · 174/210 |
+| Vinicius (2026-10-09) | outra máquina | não informado | não informado | idêntico |
+| Eric (2026-10-16) | KEKEP | Oracle 21.0.9 | `13e58b9` | idêntico |
+
 ## Comparação consolidada com o monólito (mesmo JDK, mesmas versões de ferramenta)
 
 | Métrica | Monólito | Microsserviços |
@@ -259,7 +296,7 @@ igualdade do total de mutantes indica o mesmo JDK, mas ele ainda não foi confir
 | Mutation Score | 137/170 = 80,6% | 174/210 = 82,9% |
 | Test Strength | 137/143 = 95,8% | 174/204 = 85,3% |
 | Violações ArchUnit | 0/7 | 0/17 |
-| CBO médio | 7,45 (29 classes) | 6,71 (48 classes) |
+| CBO médio | 7,45 (29 tipos) | 6,26 (53 tipos) |
 
 Leitura resumida: microsserviços têm mais cobertura (menos código não exercitado: 6 mutantes
 `NO_COVERAGE` vs. 27), mas Test Strength menor, puxado pela `SecurityConfig` replicada nos 4
