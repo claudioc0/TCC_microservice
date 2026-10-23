@@ -32,8 +32,8 @@ Duas consequências metodológicas:
 |---|---|---:|---|
 | Monólito, baseline | `TCC_monolith` `1c05487` | 98 | Histórico: medição antes da equalização |
 | **Monólito, equalizado** | `TCC_monolith` `3b6cb32` (branch `feature/equalizacao-testes-monolito`) | **180** | **Estado principal do monólito** |
-| **Microsserviços** | `TCC_microservice` `13e58b9` (`main`) | **171** | **Estado principal dos microsserviços** |
-| Microsserviços + testes transversais | `TCC_microservice` `0a3f88b` (branch `resultados-e`) | 203 | Análise de sensibilidade (4.4) |
+| **Microsserviços** | `TCC_microservice` `8e6ce9d` (`main`) | **171** | **Estado principal dos microsserviços** |
+| Microsserviços + testes transversais | `TCC_microservice` `995a942` (branch `resultados-e`) | 203 | Análise de sensibilidade (4.4) |
 
 O código de produção é o mesmo em todos os estados de um mesmo lado. Só a suíte de testes
 muda. A equalização do monólito acrescentou slices `@WebMvcTest` para os 5 controllers,

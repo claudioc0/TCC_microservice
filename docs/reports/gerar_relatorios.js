@@ -106,7 +106,7 @@ function capa(titulo, subtitulo, meta) {
 
 const META_COMUM = [
   ["Sistema medido", "TCC_microservice: user-service, product-service, order-service, report-service"],
-  ["Código medido", "`main`, commit `13e58b9`"],
+  ["Código medido", "`main`, commit `8e6ce9d`"],
   ["Ambiente", "Eclipse Temurin 21.0.12.1 · Maven 3.9.16 · Spring Boot 3.2.0 · Windows 10"],
   ["Data da coleta", "19/10/2026 (arquivos brutos), referência de 30/09/2026"],
   ["Verificações independentes", "3 máquinas, resultado idêntico (seção de determinismo)"],
@@ -176,10 +176,10 @@ const tipoTeste = (x) => {
 };
 
 const DETERMINISMO = [
-  ["Referência (Claudio)", "30/09/2026", "Temurin 21.0.12.1", "`6231961`", "171", "63/64", "174/210"],
+  ["Referência (Claudio)", "30/09/2026", "Temurin 21.0.12.1", "`cb92d7b`", "171", "63/64", "174/210"],
   ["Vinicius", "09/10/2026", "não informado", "não informado", "171", "63/64", "174/210"],
-  ["Eric", "16/10/2026", "Oracle 21.0.9", "`13e58b9`", "171", "63/64", "174/210"],
-  ["Arquivos brutos do repositório", "19/10/2026", "Temurin 21.0.12.1", "`13e58b9`", String(TESTES), `${RAMOS[0]}/${RAMOS[1]}`, `${PIT.mortos}/${PIT.total}`],
+  ["Eric", "16/10/2026", "Oracle 21.0.9", "`8e6ce9d`", "171", "63/64", "174/210"],
+  ["Arquivos brutos do repositório", "19/10/2026", "Temurin 21.0.12.1", "`8e6ce9d`", String(TESTES), `${RAMOS[0]}/${RAMOS[1]}`, `${PIT.mortos}/${PIT.total}`],
 ];
 const tabelaDeterminismo = (d) => d.tabela(["Execução", "Data", "JDK", "Commit", "Testes", "Ramos", "Mortos"], DETERMINISMO,
   [24, 13, 17, 13, 9, 10, 11], "Execuções independentes com `rodar-testes.bat` (3× testes, 2× PITest em cada uma).", ["", "", "", "", "r", "r", "r"]);

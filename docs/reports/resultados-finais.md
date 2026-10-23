@@ -23,7 +23,7 @@ tabela diz qual arquivo conferir.
 
 | Item | Valor |
 |---|---|
-| Código medido | `main`, commit `13e58b9` (código idêntico ao de `6231961`, onde o escopo do PITest foi alinhado) |
+| Código medido | `main`, commit `8e6ce9d` (código idêntico ao de `cb92d7b`, onde o escopo do PITest foi alinhado) |
 | Data da coleta dos arquivos brutos | 2026-10-19 (`mvn clean test` + PITest, árvore limpa) |
 | JDK | Eclipse Temurin **21.0.12.1** (`21.0.12+1-LTS`) |
 | Maven | 3.9.16 |
@@ -303,10 +303,14 @@ Detalhe por classe: [`acoplamento-cbo.md`](acoplamento-cbo.md) e `ck/<servico>/c
 
 | Execução | Máquina | JDK | Commit | Testes | Ramos | Mutantes mortos |
 |---|---|---|---|---|---|---|
-| Referência (Claudio, 2026-09-30) | DESKTOP-BDKDDA6 | Temurin 21.0.12.1 | `6231961` | 171 | 63/64 | 174/210 |
+| Referência (Claudio, 2026-09-30) | DESKTOP-BDKDDA6 | Temurin 21.0.12.1 | `cb92d7b` | 171 | 63/64 | 174/210 |
 | Vinicius (2026-10-09) | não informado | não informado | não informado | 171 | 63/64 | 174/210 |
-| Eric (2026-10-16) | KEKEP | Oracle 21.0.9 | `13e58b9` | 171 | 63/64 | 174/210 |
-| Arquivos desta pasta (2026-10-19) | DESKTOP-BDKDDA6 | Temurin 21.0.12.1 | `13e58b9` | 171 | 63/64 | 174/210 |
+| Eric (2026-10-16) | KEKEP | Oracle 21.0.9 | `8e6ce9d` | 171 | 63/64 | 174/210 |
+| Arquivos desta pasta (2026-10-19) | DESKTOP-BDKDDA6 | Temurin 21.0.12.1 | `8e6ce9d` | 171 | 63/64 | 174/210 |
+
+> Os hashes desta tabela são os do repositório migrado em 2026-10-23. Os resumos originais
+> do Vinicius e do Eric mostram `13e58b9`, que é o mesmo código de `8e6ce9d`; ver
+> [`../MAPA-COMMITS.md`](../MAPA-COMMITS.md).
 
 Em cada execução, os testes foram rodados 3 vezes e o PITest 2 vezes, com `rodar-testes.bat`.
 O `jacoco.csv` saiu idêntico byte a byte nas 3 rodadas e entre as máquinas, e os mutantes

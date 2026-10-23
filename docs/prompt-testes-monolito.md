@@ -9,7 +9,7 @@
 > sobre um estado dos microsserviços que não é a referência do experimento (215 testes,
 > 188/210), e com números antigos do monólito. Esta versão foi alinhada aos valores de
 > referência verificados por três execuções independentes: microsserviços no `main`, commit
-> `13e58b9`; monólito no commit `1c05487`. O que mudou:
+> `8e6ce9d`; monólito no commit `1c05487`. O que mudou:
 >
 > - PITest: os dois lados já usam **1.15.3** (o original dizia 1.15.8 no monólito).
 > - Os microsserviços **têm** 4 classes `@SpringBootTest` (6 testes); o original dizia que
@@ -296,7 +296,7 @@ para `User`, `Product`, `Order` e `OrderItem`.
 
 ### Resultado da versão microsserviços (referência para a paridade de tipos de teste)
 
-Estado de referência: `main` do `TCC_microservice`, commit `13e58b9`, verificado por três
+Estado de referência: `main` do `TCC_microservice`, commit `8e6ce9d`, verificado por três
 execuções independentes.
 
 | Métrica | Microsserviços |

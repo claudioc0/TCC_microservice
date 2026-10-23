@@ -261,7 +261,7 @@ igualdade do total de mutantes indica o mesmo JDK, mas ele ainda não foi confir
 ### Verificação independente — Eric (2026-10-16)
 
 Executada com `rodar-testes.bat` (modo completo) num clone limpo do `main`, **commit
-`13e58b9`**, sem alterações locais, em uma terceira máquina e com **outro fornecedor e outra
+`8e6ce9d`**, sem alterações locais, em uma terceira máquina e com **outro fornecedor e outra
 versão de JDK** (Oracle 21.0.9, Maven 3.9.9, Windows 11). Resultado **idêntico** à rodada de
 referência: 171/171 testes nas 3 rodadas, MD5 do `jacoco.csv` igual aos 4 hashes de
 referência, ramos 63/64, PITest 174/210 (Test Strength 174/204), com as 2 rodadas idênticas
@@ -283,9 +283,9 @@ segunda máquina. O branch fica fora do `main` para preservar a referência do e
 
 | Execução | Máquina | JDK | Commit | Resultado |
 |---|---|---|---|---|
-| Referência (Claudio, 2026-09-30) | DESKTOP-BDKDDA6 | Temurin 21.0.12.1 | `6231961` | 171 testes · 63/64 · 174/210 |
+| Referência (Claudio, 2026-09-30) | DESKTOP-BDKDDA6 | Temurin 21.0.12.1 | `cb92d7b` | 171 testes · 63/64 · 174/210 |
 | Vinicius (2026-10-09) | outra máquina | não informado | não informado | idêntico |
-| Eric (2026-10-16) | KEKEP | Oracle 21.0.9 | `13e58b9` | idêntico |
+| Eric (2026-10-16) | KEKEP | Oracle 21.0.9 | `8e6ce9d` | idêntico |
 
 ## Comparação consolidada com o monólito (mesmo JDK, mesmas versões de ferramenta)
 
